@@ -4,155 +4,445 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TK EARN — Admin Panel</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
-body { background:#f4f6fb; color:#1a1a2e; }
-.topbar { background:linear-gradient(135deg,#FF6B00,#ff8c35); padding:14px 20px; color:#fff; display:flex; justify-content:space-between; align-items:center; box-shadow:0 4px 20px rgba(255,107,0,0.3); position:sticky; top:0; z-index:100; }
-.topbar h1 { font-size:16px; font-weight:700; }
-.topbar button { background:rgba(255,255,255,0.2); border:none; color:#fff; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:600; font-size:12px; }
-.tabs { display:flex; gap:6px; padding:12px; overflow-x:auto; background:#fff; border-bottom:1px solid #e8ecf4; position:sticky; top:56px; z-index:99; -webkit-overflow-scrolling:touch; }
-.tabs::-webkit-scrollbar { display:none; }
-.tab { padding:8px 14px; border-radius:20px; border:none; background:#f4f6fb; font-weight:600; font-size:12px; cursor:pointer; white-space:nowrap; color:#6b7280; }
-.tab.active { background:#FF6B00; color:#fff; }
-.container { padding:16px; max-width:1100px; margin:0 auto; }
-.section { display:none; }
-.section.active { display:block; }
-.card { background:#fff; border-radius:14px; padding:16px; margin-bottom:12px; box-shadow:0 2px 10px rgba(0,0,0,0.06); }
-.card h3 { font-size:14px; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
-.card h3 i { color:#FF6B00; }
-.row { display:flex; align-items:center; gap:8px; padding:10px 0; border-bottom:1px solid #e8ecf4; flex-wrap:wrap; }
-.row:last-child { border-bottom:none; }
-.row-info { flex:1; min-width:160px; }
-.row-title { font-weight:600; font-size:13px; }
-.row-sub { font-size:11px; color:#6b7280; margin-top:2px; word-break:break-word; }
-.btn { padding:7px 12px; border-radius:8px; border:none; font-weight:600; font-size:11px; cursor:pointer; display:inline-flex; align-items:center; gap:4px; }
-.btn-green { background:#22c55e; color:#fff; }
-.btn-red { background:#ef4444; color:#fff; }
-.btn-blue { background:#3b82f6; color:#fff; }
-.btn-orange { background:#FF6B00; color:#fff; }
-.badge { padding:3px 8px; border-radius:20px; font-size:10px; font-weight:700; }
-.badge-green { background:#dcfce7; color:#16a34a; }
-.badge-red { background:#fef2f2; color:#dc2626; }
-.badge-orange { background:#fff3e8; color:#c2410c; }
-input, select, textarea { padding:10px 12px; border:1.5px solid #e8ecf4; border-radius:10px; font-family:inherit; font-size:13px; width:100%; outline:none; }
-input:focus, select:focus, textarea:focus { border-color:#FF6B00; }
-.form-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px; }
-.login-box { max-width:400px; margin:60px auto; background:#fff; padding:28px; border-radius:16px; box-shadow:0 10px 40px rgba(0,0,0,0.1); }
-.login-box h2 { margin-bottom:6px; color:#FF6B00; font-size:20px; }
-.login-box p { font-size:13px; color:#6b7280; margin-bottom:20px; }
-.login-box input { margin-bottom:12px; }
-.login-box button { width:100%; padding:12px; background:linear-gradient(135deg,#FF6B00,#ff8c35); color:#fff; border:none; border-radius:10px; font-weight:700; cursor:pointer; font-size:14px; }
-.toast { position:fixed; top:80px; left:50%; transform:translateX(-50%) translateY(-20px); background:#1a1a2e; color:#fff; padding:12px 20px; border-radius:30px; font-size:13px; font-weight:600; z-index:9999; opacity:0; transition:0.3s; max-width:90%; text-align:center; }
-.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
-.toast.success { background:#22c55e; }
-.toast.error { background:#ef4444; }
-.empty { text-align:center; padding:30px; color:#6b7280; }
-.empty i { font-size:36px; opacity:0.3; display:block; margin-bottom:10px; }
-.loading { text-align:center; padding:40px; color:#6b7280; }
-label.sm { font-size:11px; font-weight:600; color:#6b7280; display:block; margin-bottom:4px; }
+:root {
+  --brand: #FF6B00;
+  --brand-2: #FF8C35;
+  --brand-3: #FFB347;
+  --ink: #0F172A;
+  --ink-2: #1E293B;
+  --muted: #64748B;
+  --line: #E2E8F0;
+  --bg: #F1F5F9;
+  --white: #FFFFFF;
+  --success: #10B981;
+  --danger: #EF4444;
+  --warn: #F59E0B;
+  --info: #3B82F6;
+  --purple: #8B5CF6;
+  --shadow-sm: 0 1px 2px rgba(15,23,42,0.05);
+  --shadow: 0 4px 16px rgba(15,23,42,0.06);
+  --shadow-md: 0 10px 32px rgba(15,23,42,0.08);
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg); color: var(--ink);
+  min-height: 100vh; -webkit-font-smoothing: antialiased;
+}
+
+/* TOPBAR */
+.topbar {
+  background: linear-gradient(135deg, #0F172A, #1E293B);
+  color: #fff; padding: 14px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 4px 20px rgba(15,23,42,0.15);
+}
+.tb-brand {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px; font-weight: 700; letter-spacing: -0.3px;
+}
+.tb-logo {
+  width: 34px; height: 34px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--brand), var(--brand-3));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; box-shadow: 0 4px 12px rgba(255,107,0,0.4);
+}
+.tb-badge {
+  background: rgba(255,107,0,0.2); color: var(--brand-3);
+  font-size: 9px; font-weight: 800; letter-spacing: 1px;
+  padding: 3px 8px; border-radius: 5px; text-transform: uppercase;
+  border: 1px solid rgba(255,107,0,0.3); margin-left: 4px;
+}
+.tb-logout {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #fff; padding: 8px 12px; border-radius: 9px;
+  font-family: inherit; font-size: 12px; font-weight: 600;
+  cursor: pointer; display: flex; align-items: center; gap: 6px;
+  transition: all .15s;
+}
+.tb-logout:active { background: rgba(255,255,255,0.15); }
+
+/* TABS */
+.tabs-scroll {
+  background: var(--white); border-bottom: 1px solid var(--line);
+  padding: 12px 16px; overflow-x: auto; white-space: nowrap;
+  position: sticky; top: 60px; z-index: 99;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.tabs-scroll::-webkit-scrollbar { display: none; }
+.tab {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 14px; border-radius: 100px;
+  background: var(--bg); border: 1px solid transparent;
+  font-family: inherit; font-size: 12.5px; font-weight: 600;
+  color: var(--muted); cursor: pointer; margin-right: 6px;
+  transition: all .15s;
+}
+.tab.active { background: linear-gradient(135deg, var(--brand), var(--brand-2)); color: #fff; box-shadow: 0 4px 12px rgba(255,107,0,0.3); }
+.tab i { font-size: 12px; }
+
+/* MAIN */
+.container { padding: 16px; max-width: 1080px; margin: 0 auto; }
+.section { display: none; animation: fadeIn .3s; }
+.section.active { display: block; }
+@keyframes fadeIn { from { opacity:0; transform: translateY(6px) } to { opacity:1; transform: none } }
+
+/* CARD */
+.card {
+  background: var(--white); border-radius: 16px;
+  padding: 18px; margin-bottom: 14px;
+  border: 1px solid var(--line); box-shadow: var(--shadow-sm);
+}
+.card-title {
+  font-size: 14px; font-weight: 700; letter-spacing: -0.2px;
+  margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+}
+.card-title i { color: var(--brand); }
+
+/* STAT CARDS */
+.stat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px; margin-bottom: 16px;
+}
+.stat-card {
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: 14px; padding: 16px;
+  box-shadow: var(--shadow-sm);
+  display: flex; flex-direction: column; gap: 8px;
+}
+.stat-card-icon {
+  width: 38px; height: 38px; border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+}
+.stat-card-icon.orange { background: linear-gradient(135deg, #FFF7ED, #FFEDD5); color: var(--brand); }
+.stat-card-icon.blue { background: linear-gradient(135deg, #EFF6FF, #DBEAFE); color: var(--info); }
+.stat-card-icon.green { background: linear-gradient(135deg, #ECFDF5, #D1FAE5); color: var(--success); }
+.stat-card-icon.purple { background: linear-gradient(135deg, #F5F3FF, #EDE9FE); color: var(--purple); }
+.stat-card-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 26px; font-weight: 700; letter-spacing: -0.5px;
+}
+.stat-card-lbl { font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: .2px; }
+
+/* FORM */
+.form-group { margin-bottom: 12px; }
+.form-label {
+  display: block; font-size: 11px; font-weight: 700;
+  color: var(--muted); margin-bottom: 6px;
+  letter-spacing: .5px; text-transform: uppercase;
+}
+.form-control {
+  width: 100%; padding: 11px 13px;
+  border: 1.5px solid var(--line); border-radius: 11px;
+  font-family: inherit; font-size: 13.5px; font-weight: 500;
+  background: var(--white); color: var(--ink); outline: none;
+  transition: all .15s;
+}
+.form-control:focus { border-color: var(--brand); box-shadow: 0 0 0 4px rgba(255,107,0,0.08); }
+textarea.form-control { resize: vertical; min-height: 80px; }
+select.form-control { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='3'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 38px; }
+
+/* BUTTONS */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 10px 16px; border-radius: 10px; border: none;
+  font-family: inherit; font-size: 12.5px; font-weight: 700;
+  cursor: pointer; transition: all .15s;
+  letter-spacing: -0.1px;
+}
+.btn:active { transform: scale(.97); }
+.btn-primary { background: linear-gradient(135deg, var(--brand), var(--brand-2)); color: #fff; box-shadow: 0 4px 12px rgba(255,107,0,0.25); }
+.btn-success { background: linear-gradient(135deg, #10B981, #059669); color: #fff; box-shadow: 0 4px 12px rgba(16,185,129,0.25); }
+.btn-danger { background: linear-gradient(135deg, #EF4444, #DC2626); color: #fff; }
+.btn-info { background: linear-gradient(135deg, #3B82F6, #2563EB); color: #fff; }
+.btn-warn { background: linear-gradient(135deg, #F59E0B, #D97706); color: #fff; }
+.btn-ghost { background: var(--bg); color: var(--ink-2); border: 1px solid var(--line); }
+.btn-sm { padding: 7px 11px; font-size: 11.5px; }
+
+/* ROW */
+.row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 0; border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+.row:last-child { border-bottom: none; }
+.row-info { flex: 1; min-width: 180px; }
+.row-title {
+  font-size: 13.5px; font-weight: 700; letter-spacing: -0.1px;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.row-sub { font-size: 11.5px; color: var(--muted); margin-top: 4px; line-height: 1.5; word-break: break-word; }
+.row-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+/* BADGE */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 8px; border-radius: 100px;
+  font-size: 10px; font-weight: 700; letter-spacing: .3px;
+  text-transform: uppercase;
+}
+.badge.success { background: #D1FAE5; color: #047857; }
+.badge.danger { background: #FEE2E2; color: #B91C1C; }
+.badge.warn { background: #FEF3C7; color: #B45309; }
+.badge.info { background: #DBEAFE; color: #1D4ED8; }
+.badge.gray { background: #F1F5F9; color: var(--muted); }
+
+/* EMPTY */
+.empty {
+  text-align: center; padding: 40px 20px;
+  color: var(--muted);
+}
+.empty i { font-size: 40px; opacity: .2; color: var(--brand); display: block; margin-bottom: 12px; }
+.empty p { font-size: 13px; font-weight: 500; }
+
+/* LOADING */
+.loading { text-align: center; padding: 40px; color: var(--muted); font-size: 13px; }
+.loading i { display: block; font-size: 24px; color: var(--brand); margin-bottom: 8px; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg) } }
+
+/* LOGIN */
+.login-wrap {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #312E81 100%);
+  padding: 20px; position: relative; overflow: hidden;
+}
+.login-wrap::before {
+  content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+  width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,107,0,0.15), transparent 70%);
+}
+.login-card {
+  background: var(--white); border-radius: 24px;
+  padding: 32px 26px; width: 100%; max-width: 400px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.4);
+  position: relative; z-index: 1;
+}
+.login-logo {
+  width: 60px; height: 60px; border-radius: 18px;
+  background: linear-gradient(135deg, var(--brand), var(--brand-3));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; color: #fff; margin: 0 auto 18px;
+  box-shadow: 0 12px 32px rgba(255,107,0,0.35);
+}
+.login-title { text-align: center; font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 6px; }
+.login-sub { text-align: center; font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+.login-btn {
+  width: 100%; padding: 14px; border-radius: 12px; border: none;
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  color: #fff; font-family: inherit; font-size: 14px; font-weight: 700;
+  cursor: pointer; box-shadow: 0 8px 20px rgba(255,107,0,0.3);
+  margin-top: 6px;
+}
+
+/* TOAST */
+.toast {
+  position: fixed; top: 76px; left: 50%; transform: translateX(-50%) translateY(-16px);
+  background: #0F172A; color: #fff;
+  padding: 12px 20px; border-radius: 100px;
+  font-size: 13px; font-weight: 600;
+  z-index: 9999; opacity: 0; transition: all .3s;
+  pointer-events: none; max-width: calc(100% - 32px); text-align: center;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.success { background: linear-gradient(135deg, #10B981, #059669); }
+.toast.error { background: linear-gradient(135deg, #EF4444, #DC2626); }
+
+/* FORM ROW */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+@media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+
+/* CODE CHIP */
+.code-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: linear-gradient(135deg, #FFF7ED, #FFEDD5);
+  border: 1px solid #FED7AA;
+  padding: 5px 10px; border-radius: 8px;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 12.5px; font-weight: 700; color: var(--brand);
+}
+
+/* HINT */
+.hint {
+  background: #F0F9FF; border: 1px solid #BAE6FD;
+  border-radius: 12px; padding: 12px 14px;
+  font-size: 12px; color: #075985; line-height: 1.5;
+  margin-bottom: 14px;
+}
+.hint i { color: var(--info); margin-right: 4px; }
 </style>
 </head>
 <body>
 
-<div id="loginView">
-  <div class="login-box">
-    <h2><i class="fas fa-shield-alt"></i> Admin Login</h2>
-    <p>শুধুমাত্র অনুমোদিত এডমিনদের জন্য</p>
-    <input type="email" id="adminEmail" placeholder="Admin Email">
-    <input type="password" id="adminPass" placeholder="Password">
-    <button onclick="adminLogin()"><i class="fas fa-sign-in-alt"></i> Login</button>
+<!-- LOGIN -->
+<div class="login-wrap" id="loginView">
+  <div class="login-card">
+    <div class="login-logo"><i class="fas fa-shield-alt"></i></div>
+    <div class="login-title">Admin Panel</div>
+    <div class="login-sub">শুধুমাত্র অনুমোদিত এডমিনদের জন্য</div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input type="email" class="form-control" id="adminEmail" placeholder="admin@example.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" class="form-control" id="adminPass" placeholder="••••••••">
+    </div>
+    <button class="login-btn" onclick="adminLogin()"><i class="fas fa-sign-in-alt"></i> Login</button>
   </div>
 </div>
 
+<!-- ADMIN -->
 <div id="adminView" style="display:none">
   <div class="topbar">
-    <h1><i class="fas fa-coins"></i> TK EARN Admin</h1>
-    <button onclick="adminLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    <div class="tb-brand">
+      <div class="tb-logo"><i class="fas fa-bolt"></i></div>
+      TK EARN <span class="tb-badge">Admin</span>
+    </div>
+    <button class="tb-logout" onclick="adminLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
   </div>
-  <div class="tabs">
-    <button class="tab active" onclick="showTab('users',this)"><i class="fas fa-users"></i> Users</button>
+
+  <div class="tabs-scroll">
+    <button class="tab active" onclick="showTab('dashboard',this)"><i class="fas fa-chart-line"></i> Dashboard</button>
+    <button class="tab" onclick="showTab('users',this)"><i class="fas fa-users"></i> Users</button>
     <button class="tab" onclick="showTab('activations',this)"><i class="fas fa-unlock"></i> Activations</button>
     <button class="tab" onclick="showTab('withdrawals',this)"><i class="fas fa-money-bill"></i> Withdrawals</button>
     <button class="tab" onclick="showTab('submissions',this)"><i class="fas fa-inbox"></i> Sell Subs</button>
     <button class="tab" onclick="showTab('postwork',this)"><i class="fas fa-upload"></i> Post Work</button>
     <button class="tab" onclick="showTab('config',this)"><i class="fas fa-cog"></i> Config</button>
   </div>
+
   <div class="container">
 
-    <div class="section active" id="sec-users">
-      <div class="card">
-        <h3><i class="fas fa-search"></i> Search User</h3>
-        <input type="text" id="userSearch" placeholder="নাম, ইমেইল, ID বা UID..." oninput="renderUsers()">
+    <!-- DASHBOARD -->
+    <div class="section active" id="sec-dashboard">
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-card-icon orange"><i class="fas fa-users"></i></div>
+          <div class="stat-card-num" id="statUsers">0</div>
+          <div class="stat-card-lbl">Total Users</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon green"><i class="fas fa-user-check"></i></div>
+          <div class="stat-card-num" id="statActive">0</div>
+          <div class="stat-card-lbl">Active Users</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon purple"><i class="fas fa-clock"></i></div>
+          <div class="stat-card-num" id="statPending">0</div>
+          <div class="stat-card-lbl">Pending</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon blue"><i class="fas fa-coins"></i></div>
+          <div class="stat-card-num" id="statBalance">৳0</div>
+          <div class="stat-card-lbl">Total Balance</div>
+        </div>
       </div>
       <div class="card">
-        <h3><i class="fas fa-list"></i> All Users</h3>
-        <div id="usersList"><div class="loading">Loading...</div></div>
+        <div class="card-title"><i class="fas fa-bolt"></i> Quick Actions</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <button class="btn btn-primary" onclick="showTab('activations',document.querySelectorAll('.tab')[2])"><i class="fas fa-unlock"></i> Activations</button>
+          <button class="btn btn-info" onclick="showTab('withdrawals',document.querySelectorAll('.tab')[3])"><i class="fas fa-money-bill"></i> Withdrawals</button>
+          <button class="btn btn-success" onclick="showTab('config',document.querySelectorAll('.tab')[6])"><i class="fas fa-cog"></i> Config</button>
+          <button class="btn btn-ghost" onclick="loadDashboard()"><i class="fas fa-sync"></i> Refresh</button>
+        </div>
       </div>
     </div>
 
+    <!-- USERS -->
+    <div class="section" id="sec-users">
+      <div class="card">
+        <div class="card-title"><i class="fas fa-search"></i> Search User</div>
+        <input type="text" class="form-control" id="userSearch" placeholder="Name, Email, ID বা UID..." oninput="renderUsers()">
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="fas fa-users"></i> All Users <span style="color:var(--muted);font-weight:500;margin-left:auto;font-size:12px" id="userCount">0</span></div>
+        <div id="usersList"></div>
+      </div>
+    </div>
+
+    <!-- ACTIVATIONS -->
     <div class="section" id="sec-activations">
-      <div class="card"><h3><i class="fas fa-unlock"></i> Activation Requests</h3>
-        <div id="activationsList"><div class="loading">Loading...</div></div>
+      <div class="card">
+        <div class="card-title"><i class="fas fa-unlock"></i> Activation Requests</div>
+        <div id="activationsList"></div>
       </div>
     </div>
 
+    <!-- WITHDRAWALS -->
     <div class="section" id="sec-withdrawals">
-      <div class="card"><h3><i class="fas fa-money-bill"></i> Withdrawal Requests</h3>
-        <div id="withdrawalsList"><div class="loading">Loading...</div></div>
+      <div class="card">
+        <div class="card-title"><i class="fas fa-money-bill"></i> Withdrawal Requests</div>
+        <div id="withdrawalsList"></div>
       </div>
     </div>
 
+    <!-- SUBMISSIONS -->
     <div class="section" id="sec-submissions">
-      <div class="card"><h3><i class="fas fa-inbox"></i> Sell Submissions</h3>
-        <div id="submissionsList"><div class="loading">Loading...</div></div>
+      <div class="card">
+        <div class="card-title"><i class="fas fa-inbox"></i> Sell Submissions</div>
+        <div id="submissionsList"></div>
       </div>
     </div>
 
+    <!-- POST WORK -->
     <div class="section" id="sec-postwork">
-      <div class="card"><h3><i class="fas fa-upload"></i> Post Work Submissions</h3>
-        <div id="postWorkList"><div class="loading">Loading...</div></div>
+      <div class="card">
+        <div class="card-title"><i class="fas fa-upload"></i> Post Work</div>
+        <div id="postWorkList"></div>
       </div>
     </div>
 
+    <!-- CONFIG -->
     <div class="section" id="sec-config">
+      <div class="hint"><i class="fas fa-info-circle"></i> এই সেটিংসগুলো ইউজার অ্যাপে সরাসরি প্রতিফলিত হয়। পরিবর্তন করে Save করুন।</div>
       <div class="card">
-        <h3><i class="fas fa-sliders-h"></i> App Settings</h3>
+        <div class="card-title"><i class="fas fa-sliders-h"></i> App Settings</div>
         <div class="form-row">
-          <div><label class="sm">Activation Charge (৳)</label><input type="number" id="cfgActivation"></div>
-          <div><label class="sm">Min Withdraw (৳)</label><input type="number" id="cfgMinWithdraw"></div>
+          <div><label class="form-label">Activation Charge (৳)</label><input type="number" class="form-control" id="cfgActivation"></div>
+          <div><label class="form-label">Min Withdraw (৳)</label><input type="number" class="form-control" id="cfgMinWithdraw"></div>
         </div>
         <div class="form-row">
-          <div><label class="sm">Refer Bonus (৳)</label><input type="number" id="cfgRefBonus"></div>
-          <div><label class="sm">Signup Bonus (৳)</label><input type="number" id="cfgSignupBonus"></div>
+          <div><label class="form-label">Refer Bonus (৳)</label><input type="number" class="form-control" id="cfgRefBonus"></div>
+          <div><label class="form-label">Signup Bonus (৳)</label><input type="number" class="form-control" id="cfgSignupBonus"></div>
         </div>
         <div class="form-row">
-          <div><label class="sm">bKash Number</label><input type="text" id="cfgBkash"></div>
-          <div><label class="sm">Nagad Number</label><input type="text" id="cfgNagad"></div>
+          <div><label class="form-label">bKash Number</label><input type="text" class="form-control" id="cfgBkash"></div>
+          <div><label class="form-label">Nagad Number</label><input type="text" class="form-control" id="cfgNagad"></div>
         </div>
-        <div style="margin-bottom:10px"><label class="sm">Rocket Number</label><input type="text" id="cfgRocket"></div>
-        <button class="btn btn-orange" onclick="saveSettings()"><i class="fas fa-save"></i> Save Settings</button>
+        <div style="margin-bottom:12px"><label class="form-label">Rocket Number</label><input type="text" class="form-control" id="cfgRocket"></div>
+        <button class="btn btn-primary" onclick="saveSettings()"><i class="fas fa-save"></i> Save Settings</button>
       </div>
+
       <div class="card">
-        <h3><i class="fas fa-bullhorn"></i> Notice</h3>
-        <textarea id="cfgNotice" rows="3" placeholder="Notice লিখুন..."></textarea>
-        <button class="btn btn-orange" style="margin-top:10px" onclick="saveNotice()"><i class="fas fa-save"></i> Save Notice</button>
+        <div class="card-title"><i class="fas fa-bullhorn"></i> Notice</div>
+        <textarea class="form-control" id="cfgNotice" rows="3" placeholder="Notice লিখুন..."></textarea>
+        <button class="btn btn-primary" style="margin-top:10px" onclick="saveNotice()"><i class="fas fa-save"></i> Save Notice</button>
       </div>
+
       <div class="card">
-        <h3><i class="fas fa-gift"></i> Gift Codes</h3>
+        <div class="card-title"><i class="fas fa-gift"></i> Gift Codes</div>
         <div class="form-row">
-          <input type="text" id="newCode" placeholder="CODE" style="text-transform:uppercase">
-          <input type="number" id="newCodeAmt" placeholder="Amount (৳)">
+          <input type="text" class="form-control" id="newCode" placeholder="CODE" style="text-transform:uppercase;font-family:'Space Grotesk',monospace;letter-spacing:1px">
+          <input type="number" class="form-control" id="newCodeAmt" placeholder="Amount (৳)">
         </div>
-        <button class="btn btn-green" onclick="addGiftCode()"><i class="fas fa-plus"></i> Add Code</button>
+        <button class="btn btn-success" onclick="addGiftCode()"><i class="fas fa-plus"></i> Add Code</button>
         <div id="giftCodesList" style="margin-top:12px"></div>
       </div>
+
       <div class="card">
-        <h3><i class="fas fa-tasks"></i> Daily Tasks</h3>
+        <div class="card-title"><i class="fas fa-tasks"></i> Daily Tasks</div>
         <div id="dailyTasksList"></div>
       </div>
     </div>
@@ -163,7 +453,6 @@ label.sm { font-size:11px; font-weight:600; color:#6b7280; display:block; margin
 <div class="toast" id="toast"></div>
 
 <script>
-// ============ FIREBASE CONFIG ============
 const firebaseConfig = {
   apiKey: "AIzaSyAHcAqvCFk-AxSVHf_YWqO8hyb-bgZacKg",
   authDomain: "tk-earn-30bb1.firebaseapp.com",
@@ -188,18 +477,15 @@ function toast(msg, type='') {
 async function adminLogin() {
   const email = document.getElementById('adminEmail').value.trim();
   const pass = document.getElementById('adminPass').value;
-  if(!email || !pass) { toast('Email ও Password দিন', 'error'); return; }
+  if(!email || !pass) return toast('Email ও Password দিন', 'error');
   try {
     const cred = await auth.signInWithEmailAndPassword(email, pass);
     const adminDoc = await db.collection('admins').doc(cred.user.uid).get();
-    if(!adminDoc.exists) {
-      await auth.signOut();
-      toast('⛔ আপনি এডমিন নন!', 'error');
-      return;
-    }
+    if(!adminDoc.exists) { await auth.signOut(); return toast('⛔ আপনি এডমিন নন', 'error'); }
     document.getElementById('loginView').style.display = 'none';
     document.getElementById('adminView').style.display = 'block';
-    loadAll();
+    loadDashboard();
+    loadConfig();
   } catch(e) { toast(e.message, 'error'); }
 }
 
@@ -213,6 +499,7 @@ function showTab(id, btn) {
   document.getElementById('sec-' + id).classList.add('active');
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
+  if(id === 'dashboard') loadDashboard();
   if(id === 'users') loadUsers();
   if(id === 'activations') loadActivations();
   if(id === 'withdrawals') loadWithdrawals();
@@ -221,9 +508,28 @@ function showTab(id, btn) {
   if(id === 'config') loadConfig();
 }
 
-async function loadAll() { loadUsers(); loadConfig(); }
+async function loadDashboard() {
+  try {
+    const usersSnap = await db.collection('users').get();
+    let total = 0, active = 0, bal = 0;
+    usersSnap.docs.forEach(d => {
+      total++;
+      const data = d.data();
+      if(data.status === 'active') active++;
+      bal += data.balance || 0;
+    });
+    let pending = 0;
+    const w = await db.collection('withdrawals').where('status','==','pending').get();
+    const a = await db.collection('activation_requests').where('status','==','pending').get();
+    pending = w.size + a.size;
 
-// ─── USERS ───
+    document.getElementById('statUsers').textContent = total;
+    document.getElementById('statActive').textContent = active;
+    document.getElementById('statPending').textContent = pending;
+    document.getElementById('statBalance').textContent = '৳' + bal.toFixed(0);
+  } catch(e) { toast(e.message, 'error'); }
+}
+
 async function loadUsers() {
   try {
     const snap = await db.collection('users').orderBy('createdAt','desc').limit(200).get();
@@ -237,257 +543,233 @@ async function loadUsers() {
 function renderUsers() {
   const q = (document.getElementById('userSearch').value || '').toLowerCase();
   const filtered = allUsers.filter(u =>
-    !q || (u.name||'').toLowerCase().includes(q) ||
-    (u.email||'').toLowerCase().includes(q) ||
+    !q || (u.name||'').toLowerCase().includes(q) || (u.email||'').toLowerCase().includes(q) ||
     String(u.userId||'').includes(q) || u.uid.includes(q)
   );
+  document.getElementById('userCount').textContent = filtered.length;
   const el = document.getElementById('usersList');
   if(!filtered.length) { el.innerHTML = '<div class="empty"><i class="fas fa-users"></i><p>কোনো ইউজার নেই</p></div>'; return; }
-  el.innerHTML = filtered.map(u => `
-    <div class="row">
+  el.innerHTML = filtered.map(u => {
+    const status = u.status || 'inactive';
+    const badgeCls = status === 'active' ? 'success' : status === 'banned' ? 'danger' : 'warn';
+    return `<div class="row">
       <div class="row-info">
-        <div class="row-title">${u.name || 'User'} <span class="badge ${u.status==='active'?'badge-green':u.status==='banned'?'badge-red':'badge-orange'}">${u.status||'inactive'}</span></div>
-        <div class="row-sub">ID: ${u.userId||'?'} | ${u.email||''}<br>Balance: ৳${(u.balance||0).toFixed(2)} | Refer: ৳${(u.referBalance||0).toFixed(2)}</div>
+        <div class="row-title">${u.name || 'User'} <span class="badge ${badgeCls}">${status}</span></div>
+        <div class="row-sub">ID: ${u.userId||'?'} · ${u.email||''}<br>Balance: <strong>৳${(u.balance||0).toFixed(2)}</strong> · Refer: <strong>৳${(u.referBalance||0).toFixed(2)}</strong></div>
       </div>
-      <button class="btn btn-green" onclick="adjustBalance('${u.uid}', 50)">+৳50</button>
-      <button class="btn btn-blue" onclick="promptAdjust('${u.uid}','${(u.name||'').replace(/'/g,"\\'")}')"><i class="fas fa-edit"></i></button>
-      <button class="btn btn-orange" onclick="toggleStatus('${u.uid}','${u.status||'inactive'}')">${u.status==='active'?'Deact':'Active'}</button>
-      <button class="btn btn-red" onclick="banUser('${u.uid}','${u.status||'inactive'}')">${u.status==='banned'?'Unban':'Ban'}</button>
-    </div>
-  `).join('');
+      <div class="row-actions">
+        <button class="btn btn-success btn-sm" onclick="adjustBalance('${u.uid}', 50)">+৳50</button>
+        <button class="btn btn-info btn-sm" onclick="promptAdjust('${u.uid}','${(u.name||'').replace(/'/g,"\\'")}')"><i class="fas fa-edit"></i></button>
+        <button class="btn ${status==='active'?'btn-warn':'btn-success'} btn-sm" onclick="toggleStatus('${u.uid}','${status}')">${status==='active'?'Deactivate':'Activate'}</button>
+        <button class="btn btn-danger btn-sm" onclick="banUser('${u.uid}','${status}')">${status==='banned'?'Unban':'Ban'}</button>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 async function adjustBalance(uid, amt) {
-  if(!confirm(`৳${amt} যোগ করতে চান?`)) return;
+  if(!confirm(`৳${amt} যোগ করবেন?`)) return;
   try {
     const ref = db.collection('users').doc(uid);
     await ref.update({ balance: firebase.firestore.FieldValue.increment(amt) });
-    await ref.collection('transactions').add({
-      title: 'Admin Bonus', amount: amt, positive: true,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
+    await ref.collection('transactions').add({ title: 'Admin Bonus', amount: amt, positive: true, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
     toast('✅ ৳' + amt + ' যোগ হয়েছে', 'success');
     loadUsers();
   } catch(e) { toast(e.message, 'error'); }
 }
 
 async function promptAdjust(uid, name) {
-  const amtStr = prompt(`${name} — কত টাকা যোগ/বিয়োগ?\n(বিয়োগ করতে - দিন, যেমন: -50)`);
-  if(!amtStr) return;
-  const amt = parseFloat(amtStr);
-  if(isNaN(amt) || amt === 0) { toast('সঠিক সংখ্যা দিন', 'error'); return; }
+  const str = prompt(`${name} — কত টাকা?\n(বিয়োগ করতে - দিন)`);
+  if(!str) return;
+  const amt = parseFloat(str);
+  if(isNaN(amt) || amt === 0) return toast('সঠিক সংখ্যা দিন', 'error');
   try {
     const ref = db.collection('users').doc(uid);
     await ref.update({ balance: firebase.firestore.FieldValue.increment(amt) });
     await ref.collection('transactions').add({
       title: amt > 0 ? 'Admin Bonus' : 'Admin Deduction',
-      amount: Math.abs(amt), positive: amt > 0,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      amount: Math.abs(amt), positive: amt > 0, createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    toast('✅ ব্যালেন্স আপডেট', 'success');
+    toast('✅ আপডেট হয়েছে', 'success');
     loadUsers();
   } catch(e) { toast(e.message, 'error'); }
 }
 
 async function toggleStatus(uid, current) {
   const next = current === 'active' ? 'inactive' : 'active';
-  try {
-    await db.collection('users').doc(uid).update({ status: next });
-    toast('✅ Status → ' + next, 'success');
-    loadUsers();
-  } catch(e) { toast(e.message, 'error'); }
+  try { await db.collection('users').doc(uid).update({ status: next }); toast('✅ ' + next, 'success'); loadUsers(); }
+  catch(e) { toast(e.message, 'error'); }
 }
 
 async function banUser(uid, current) {
   const next = current === 'banned' ? 'active' : 'banned';
-  if(!confirm(`ইউজারকে ${next} করতে চান?`)) return;
-  try {
-    await db.collection('users').doc(uid).update({ status: next });
-    toast('✅ Status → ' + next, 'success');
-    loadUsers();
-  } catch(e) { toast(e.message, 'error'); }
+  if(!confirm(`User কে ${next} করবেন?`)) return;
+  try { await db.collection('users').doc(uid).update({ status: next }); toast('✅ ' + next, 'success'); loadUsers(); }
+  catch(e) { toast(e.message, 'error'); }
 }
 
-// ─── ACTIVATIONS ───
 async function loadActivations() {
   try {
     const snap = await db.collection('activation_requests').orderBy('createdAt','desc').limit(100).get();
     const el = document.getElementById('activationsList');
-    if(snap.empty) { el.innerHTML = '<div class="empty"><i class="fas fa-inbox"></i><p>কোনো রিকোয়েস্ট নেই</p></div>'; return; }
+    if(snap.empty) { el.innerHTML = '<div class="empty"><i class="fas fa-inbox"></i><p>No requests</p></div>'; return; }
     el.innerHTML = snap.docs.map(d => {
       const r = d.data();
-      const badge = r.status==='pending'?'badge-orange':r.status==='approved'?'badge-green':'badge-red';
+      const cls = r.status === 'pending' ? 'warn' : r.status === 'approved' ? 'success' : 'danger';
       return `<div class="row">
         <div class="row-info">
-          <div class="row-title">${r.name} <span class="badge ${badge}">${r.status}</span></div>
-          <div class="row-sub">ID: ${r.userId}<br>Method: ${r.method} | Sender: ${r.senderNumber}<br>TrxID: ${r.trxId} | ৳${r.amount}</div>
+          <div class="row-title">${r.name} <span class="badge ${cls}">${r.status}</span></div>
+          <div class="row-sub">ID: ${r.userId}<br>${r.method} · Sender: ${r.senderNumber}<br>TrxID: <span class="code-chip">${r.trxId}</span> · ৳${r.amount}</div>
         </div>
-        ${r.status==='pending' ? `
-          <button class="btn btn-green" onclick="approveActivation('${d.id}','${r.uid}',${r.amount})">Approve</button>
-          <button class="btn btn-red" onclick="rejectActivation('${d.id}')">Reject</button>
-        ` : ''}
+        ${r.status==='pending' ? `<div class="row-actions">
+          <button class="btn btn-success btn-sm" onclick="approveActivation('${d.id}','${r.uid}',${r.amount})">Approve</button>
+          <button class="btn btn-danger btn-sm" onclick="rejectActivation('${d.id}')">Reject</button>
+        </div>` : ''}
       </div>`;
     }).join('');
   } catch(e) { document.getElementById('activationsList').innerHTML = '<div class="empty"><p>' + e.message + '</p></div>'; }
 }
 
 async function approveActivation(reqId, uid, amount) {
-  if(!confirm('অ্যাকাউন্ট একটিভ করতে চান?')) return;
+  if(!confirm('Approve করবেন?')) return;
   try {
     await db.collection('users').doc(uid).update({ status: 'active' });
-    await db.collection('activation_requests').doc(reqId).update({
-      status: 'approved', approvedAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
+    await db.collection('activation_requests').doc(reqId).update({ status: 'approved', approvedAt: firebase.firestore.FieldValue.serverTimestamp() });
     await db.collection('users').doc(uid).collection('transactions').add({
-      title: 'Account Activated ✅', amount: amount, positive: false,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      title: 'Account Activated ✅', amount: amount, positive: false, createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    toast('✅ একটিভ হয়েছে', 'success');
+    toast('✅ Approved', 'success');
     loadActivations();
   } catch(e) { toast(e.message, 'error'); }
 }
 
 async function rejectActivation(reqId) {
-  if(!confirm('রিজেক্ট করতে চান?')) return;
+  if(!confirm('Reject করবেন?')) return;
   await db.collection('activation_requests').doc(reqId).update({ status: 'rejected' });
-  toast('রিজেক্টেড');
-  loadActivations();
+  toast('Rejected'); loadActivations();
 }
 
-// ─── WITHDRAWALS ───
 async function loadWithdrawals() {
   try {
     const snap = await db.collection('withdrawals').orderBy('createdAt','desc').limit(100).get();
     const el = document.getElementById('withdrawalsList');
-    if(snap.empty) { el.innerHTML = '<div class="empty"><i class="fas fa-inbox"></i><p>কোনো রিকোয়েস্ট নেই</p></div>'; return; }
+    if(snap.empty) { el.innerHTML = '<div class="empty"><i class="fas fa-inbox"></i><p>No requests</p></div>'; return; }
     el.innerHTML = snap.docs.map(d => {
       const r = d.data();
-      const badge = r.status==='pending'?'badge-orange':r.status==='approved'?'badge-green':'badge-red';
+      const cls = r.status === 'pending' ? 'warn' : r.status === 'approved' ? 'success' : 'danger';
       return `<div class="row">
         <div class="row-info">
-          <div class="row-title">${r.name} <span class="badge ${badge}">${r.status}</span></div>
-          <div class="row-sub">ID: ${r.userId}<br>${r.method} → ${r.account}<br>৳${r.amount} (charge ৳${r.charge||0})</div>
+          <div class="row-title">${r.name} <span class="badge ${cls}">${r.status}</span></div>
+          <div class="row-sub">ID: ${r.userId}<br>${r.method} → <strong>${r.account}</strong><br>৳${r.amount} (fee ৳${r.charge||0})</div>
         </div>
-        ${r.status==='pending' ? `
-          <button class="btn btn-green" onclick="approveWithdraw('${d.id}')">Approve</button>
-          <button class="btn btn-red" onclick="rejectWithdraw('${d.id}','${r.uid}',${r.amount},'${r.balanceType||'main'}')">Reject</button>
-        ` : ''}
+        ${r.status==='pending' ? `<div class="row-actions">
+          <button class="btn btn-success btn-sm" onclick="approveWithdraw('${d.id}')">Approve</button>
+          <button class="btn btn-danger btn-sm" onclick="rejectWithdraw('${d.id}','${r.uid}',${r.amount},'${r.balanceType||'main'}')">Reject</button>
+        </div>` : ''}
       </div>`;
     }).join('');
   } catch(e) { document.getElementById('withdrawalsList').innerHTML = '<div class="empty"><p>' + e.message + '</p></div>'; }
 }
 
 async function approveWithdraw(id) {
-  if(!confirm('Approve করতে চান?')) return;
+  if(!confirm('Approve?')) return;
   await db.collection('withdrawals').doc(id).update({ status: 'approved', approvedAt: firebase.firestore.FieldValue.serverTimestamp() });
-  toast('✅ Approved', 'success');
-  loadWithdrawals();
+  toast('✅ Approved', 'success'); loadWithdrawals();
 }
 
 async function rejectWithdraw(id, uid, amount, type) {
-  if(!confirm('Reject করে ব্যালেন্স ফেরত দিতে চান?')) return;
+  if(!confirm('Reject + Refund?')) return;
   const field = type === 'refer' ? 'referBalance' : 'balance';
   await db.collection('withdrawals').doc(id).update({ status: 'rejected' });
   await db.collection('users').doc(uid).update({ [field]: firebase.firestore.FieldValue.increment(amount) });
   await db.collection('users').doc(uid).collection('transactions').add({
-    title: 'Withdrawal Rejected — Refund', amount: amount, positive: true,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    title: 'Withdrawal Refund', amount: amount, positive: true, createdAt: firebase.firestore.FieldValue.serverTimestamp()
   });
-  toast('রিজেক্ট + রিফান্ড সম্পন্ন');
-  loadWithdrawals();
+  toast('Rejected + Refunded'); loadWithdrawals();
 }
 
-// ─── SUBMISSIONS ───
 async function loadSubmissions() {
   try {
     const snap = await db.collection('submissions').orderBy('createdAt','desc').limit(100).get();
     const el = document.getElementById('submissionsList');
-    if(snap.empty) { el.innerHTML = '<div class="empty"><i class="fas fa-inbox"></i><p>কোনো সাবমিশন নেই</p></div>'; return; }
+    if(snap.empty) { el.innerHTML = '<div class="empty"><i class="fas fa-inbox"></i><p>No submissions</p></div>'; return; }
     el.innerHTML = snap.docs.map(d => {
       const r = d.data();
       let details = '';
-      if(r.type === 'facebook') details = `UID: ${r.fbUID||''} | Phone: ${r.fbPhone||''}<br>Pass: ${r.fbPass||''}<br>Cookies: ${(r.fbCookies||'').substring(0,60)}`;
-      else if(r.type === 'gmail') details = `${r.gmailAddress||''}<br>Pass: ${r.gmailPassword||''}<br>Recovery: ${r.recoveryEmail||''}`;
-      else if(r.type === 'instagram') details = `${r.username||''}<br>Pass: ${r.password||''}<br>Backup: ${r.backupCode||''}`;
-      const badge = r.status==='pending'?'badge-orange':r.status==='approved'?'badge-green':'badge-red';
-      const amt = r.type==='facebook'?5:r.type==='gmail'?3:4;
+      if(r.type === 'facebook') details = `UID: ${r.fbUID||''}<br>Phone: ${r.fbPhone||''} · Pass: ${r.fbPass||''}`;
+      else if(r.type === 'gmail') details = `${r.gmailAddress||''}<br>Pass: ${r.gmailPassword||''} · Recovery: ${r.recoveryEmail||''}`;
+      else if(r.type === 'instagram') details = `${r.username||''}<br>Pass: ${r.password||''} · 2FA: ${r.backupCode||''}`;
+      const cls = r.status === 'pending' ? 'warn' : r.status === 'approved' ? 'success' : 'danger';
+      const amt = r.type === 'facebook' ? 5 : r.type === 'gmail' ? 3 : 4;
       return `<div class="row">
         <div class="row-info">
-          <div class="row-title">${(r.type||'').toUpperCase()} — ${r.name} <span class="badge ${badge}">${r.status}</span></div>
+          <div class="row-title">${(r.type||'').toUpperCase()} — ${r.name} <span class="badge ${cls}">${r.status}</span></div>
           <div class="row-sub">${details}</div>
         </div>
-        ${r.status==='pending' ? `
-          <button class="btn btn-green" onclick="approveSubmission('${d.id}','${r.uid}','${r.type}',${amt})">Approve & Pay ৳${amt}</button>
-          <button class="btn btn-red" onclick="rejectSubmission('${d.id}')">Reject</button>
-        ` : ''}
+        ${r.status==='pending' ? `<div class="row-actions">
+          <button class="btn btn-success btn-sm" onclick="approveSubmission('${d.id}','${r.uid}','${r.type}',${amt})">Approve ৳${amt}</button>
+          <button class="btn btn-danger btn-sm" onclick="rejectSubmission('${d.id}')">Reject</button>
+        </div>` : ''}
       </div>`;
     }).join('');
   } catch(e) { document.getElementById('submissionsList').innerHTML = '<div class="empty"><p>' + e.message + '</p></div>'; }
 }
 
 async function approveSubmission(id, uid, type, amount) {
-  if(!confirm(`Approve করে ৳${amount} দিতে চান?`)) return;
+  if(!confirm(`Approve + ৳${amount}?`)) return;
   await db.collection('submissions').doc(id).update({ status: 'approved' });
   await db.collection('users').doc(uid).update({ balance: firebase.firestore.FieldValue.increment(amount) });
   await db.collection('users').doc(uid).collection('transactions').add({
-    title: `${type} Sell Approved`, amount: amount, positive: true,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    title: `${type} Sell Approved`, amount, positive: true, createdAt: firebase.firestore.FieldValue.serverTimestamp()
   });
-  toast('✅ Approved & Paid', 'success');
-  loadSubmissions();
+  toast('✅ Approved'); loadSubmissions();
 }
 
 async function rejectSubmission(id) {
-  if(!confirm('Reject করতে চান?')) return;
+  if(!confirm('Reject?')) return;
   await db.collection('submissions').doc(id).update({ status: 'rejected' });
-  toast('রিজেক্টেড');
-  loadSubmissions();
+  toast('Rejected'); loadSubmissions();
 }
 
-// ─── POST WORK ───
 async function loadPostWork() {
   try {
     const snap = await db.collection('postWork').orderBy('createdAt','desc').limit(100).get();
     const el = document.getElementById('postWorkList');
-    if(snap.empty) { el.innerHTML = '<div class="empty"><i class="fas fa-inbox"></i><p>কোনো সাবমিশন নেই</p></div>'; return; }
+    if(snap.empty) { el.innerHTML = '<div class="empty"><i class="fas fa-inbox"></i><p>No submissions</p></div>'; return; }
     el.innerHTML = snap.docs.map(d => {
       const r = d.data();
-      const badge = r.status==='pending'?'badge-orange':r.status==='approved'?'badge-green':'badge-red';
+      const cls = r.status === 'pending' ? 'warn' : r.status === 'approved' ? 'success' : 'danger';
       return `<div class="row">
         <div class="row-info">
-          <div class="row-title">${r.workType} — ${r.name} <span class="badge ${badge}">${r.status}</span></div>
-          <div class="row-sub">Screenshot: <a href="${r.screenshotLink}" target="_blank">${r.screenshotLink}</a><br>${r.description||''}</div>
+          <div class="row-title">${r.workType} — ${r.name} <span class="badge ${cls}">${r.status}</span></div>
+          <div class="row-sub">Screenshot: <a href="${r.screenshotLink}" target="_blank" style="color:var(--info)">${r.screenshotLink}</a><br>${r.description||''}</div>
         </div>
-        ${r.status==='pending' ? `
-          <button class="btn btn-green" onclick="approvePost('${d.id}','${r.uid}')">Approve</button>
-          <button class="btn btn-red" onclick="rejectPost('${d.id}')">Reject</button>
-        ` : ''}
+        ${r.status==='pending' ? `<div class="row-actions">
+          <button class="btn btn-success btn-sm" onclick="approvePost('${d.id}','${r.uid}')">Approve</button>
+          <button class="btn btn-danger btn-sm" onclick="rejectPost('${d.id}')">Reject</button>
+        </div>` : ''}
       </div>`;
     }).join('');
   } catch(e) { document.getElementById('postWorkList').innerHTML = '<div class="empty"><p>' + e.message + '</p></div>'; }
 }
 
 async function approvePost(id, uid) {
-  const amtStr = prompt('কত টাকা দিতে চান?', '10');
-  if(!amtStr) return;
-  const amount = parseFloat(amtStr);
+  const str = prompt('কত টাকা?', '10');
+  if(!str) return;
+  const amount = parseFloat(str);
   await db.collection('postWork').doc(id).update({ status: 'approved' });
   await db.collection('users').doc(uid).update({ balance: firebase.firestore.FieldValue.increment(amount) });
   await db.collection('users').doc(uid).collection('transactions').add({
-    title: 'Post Work Approved', amount: amount, positive: true,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    title: 'Post Work Approved', amount, positive: true, createdAt: firebase.firestore.FieldValue.serverTimestamp()
   });
-  toast('✅ Approved & Paid', 'success');
-  loadPostWork();
+  toast('✅ Approved'); loadPostWork();
 }
 
 async function rejectPost(id) {
   await db.collection('postWork').doc(id).update({ status: 'rejected' });
-  toast('রিজেক্টেড');
-  loadPostWork();
+  toast('Rejected'); loadPostWork();
 }
 
-// ─── CONFIG ───
 async function loadConfig() {
   try {
     const sDoc = await db.collection('app_config').doc('settings').get();
@@ -517,29 +799,27 @@ async function saveSettings() {
       signupBonus: parseFloat(document.getElementById('cfgSignupBonus').value) || 5,
       bkashNum: document.getElementById('cfgBkash').value.trim(),
       nagadNum: document.getElementById('cfgNagad').value.trim(),
-      rocketNum: document.getElementById('cfgRocket').value.trim(),
+      rocketNum: document.getElementById('cfgRocket').value.trim()
     }, { merge: true });
-    toast('✅ Settings সেভ হয়েছে', 'success');
+    toast('✅ Settings saved', 'success');
   } catch(e) { toast(e.message, 'error'); }
 }
 
 async function saveNotice() {
   try {
-    await db.collection('app_config').doc('main').set({
-      notice: document.getElementById('cfgNotice').value.trim()
-    }, { merge: true });
-    toast('✅ Notice সেভ হয়েছে', 'success');
+    await db.collection('app_config').doc('main').set({ notice: document.getElementById('cfgNotice').value.trim() }, { merge: true });
+    toast('✅ Notice saved', 'success');
   } catch(e) { toast(e.message, 'error'); }
 }
 
 function renderGiftCodes(codes) {
   const el = document.getElementById('giftCodesList');
   const entries = Object.entries(codes);
-  if(!entries.length) { el.innerHTML = '<p style="color:#6b7280;font-size:12px">কোনো কোড নেই</p>'; return; }
+  if(!entries.length) { el.innerHTML = '<p style="color:var(--muted);font-size:12px;text-align:center;padding:16px">No codes</p>'; return; }
   el.innerHTML = entries.map(([code, amt]) => `
     <div class="row">
-      <div class="row-info"><div class="row-title">${code}</div><div class="row-sub">৳${amt}</div></div>
-      <button class="btn btn-red" onclick="deleteGiftCode('${code}')"><i class="fas fa-trash"></i></button>
+      <div class="row-info"><div class="row-title"><span class="code-chip">${code}</span></div><div class="row-sub">৳${amt}</div></div>
+      <button class="btn btn-danger btn-sm" onclick="deleteGiftCode('${code}')"><i class="fas fa-trash"></i></button>
     </div>
   `).join('');
 }
@@ -547,45 +827,39 @@ function renderGiftCodes(codes) {
 async function addGiftCode() {
   const code = document.getElementById('newCode').value.trim().toUpperCase();
   const amt = parseFloat(document.getElementById('newCodeAmt').value);
-  if(!code || !amt) { toast('Code ও Amount দিন', 'error'); return; }
+  if(!code || !amt) return toast('Code ও Amount দিন', 'error');
   try {
-    await db.collection('app_config').doc('main').set({
-      giftCodes: { [code]: amt }
-    }, { merge: true });
+    await db.collection('app_config').doc('main').set({ giftCodes: { [code]: amt } }, { merge: true });
     document.getElementById('newCode').value = '';
     document.getElementById('newCodeAmt').value = '';
-    toast('✅ কোড যোগ হয়েছে', 'success');
-    loadConfig();
+    toast('✅ Added', 'success'); loadConfig();
   } catch(e) { toast(e.message, 'error'); }
 }
 
 async function deleteGiftCode(code) {
-  if(!confirm('ডিলিট করতে চান?')) return;
-  await db.collection('app_config').doc('main').update({
-    ['giftCodes.' + code]: firebase.firestore.FieldValue.delete()
-  });
-  toast('ডিলিটেড');
-  loadConfig();
+  if(!confirm('Delete?')) return;
+  await db.collection('app_config').doc('main').update({ ['giftCodes.' + code]: firebase.firestore.FieldValue.delete() });
+  toast('Deleted'); loadConfig();
 }
 
 function renderDailyTasks(tasks) {
   const el = document.getElementById('dailyTasksList');
-  if(!tasks.length) { el.innerHTML = '<p style="color:#6b7280;font-size:12px">কোনো টাস্ক নেই</p>'; return; }
+  if(!tasks.length) { el.innerHTML = '<p style="color:var(--muted);font-size:12px;text-align:center;padding:16px">No tasks</p>'; return; }
   el.innerHTML = tasks.map(t => `
     <div class="row">
-      <div class="row-info"><div class="row-title">${t.title}</div><div class="row-sub">৳${t.reward} | ${t.time||t.wait}s | ${t.link||'No link'}</div></div>
+      <div class="row-info"><div class="row-title">${t.title}</div><div class="row-sub">৳${t.reward} · ${t.time||t.wait}s · ${t.link||'No link'}</div></div>
     </div>
   `).join('');
 }
 
-// Auto-login check
 auth.onAuthStateChanged(async user => {
   if(user) {
     const d = await db.collection('admins').doc(user.uid).get();
     if(d.exists) {
       document.getElementById('loginView').style.display = 'none';
       document.getElementById('adminView').style.display = 'block';
-      loadAll();
+      loadDashboard();
+      loadConfig();
     }
   }
 });
