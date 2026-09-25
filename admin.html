@@ -3,284 +3,114 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TK EARN — Admin Panel</title>
+<title>TK EARN — Admin</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <style>
-:root {
-  --brand: #FF6B00;
-  --brand-2: #FF8C35;
-  --brand-3: #FFB347;
-  --ink: #0F172A;
-  --ink-2: #1E293B;
-  --muted: #64748B;
-  --line: #E2E8F0;
-  --bg: #F1F5F9;
-  --white: #FFFFFF;
-  --success: #10B981;
-  --danger: #EF4444;
-  --warn: #F59E0B;
-  --info: #3B82F6;
-  --purple: #8B5CF6;
-  --shadow-sm: 0 1px 2px rgba(15,23,42,0.05);
-  --shadow: 0 4px 16px rgba(15,23,42,0.06);
-  --shadow-md: 0 10px 32px rgba(15,23,42,0.08);
-}
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-body {
-  font-family: 'Inter', system-ui, sans-serif;
-  background: var(--bg); color: var(--ink);
-  min-height: 100vh; -webkit-font-smoothing: antialiased;
-}
+:root{--brand:#FF6B00;--brand-2:#FF8C35;--brand-3:#FFB347;--ink:#0F172A;--ink-2:#1E293B;--muted:#64748B;--line:#E2E8F0;--bg:#F1F5F9;--white:#FFF;--success:#10B981;--danger:#EF4444;--warn:#F59E0B;--info:#3B82F6;--purple:#8B5CF6;--shadow-sm:0 1px 2px rgba(15,23,42,.05);--shadow-md:0 10px 32px rgba(15,23,42,.08)}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
 
-/* TOPBAR */
-.topbar {
-  background: linear-gradient(135deg, #0F172A, #1E293B);
-  color: #fff; padding: 14px 20px;
-  display: flex; align-items: center; justify-content: space-between;
-  position: sticky; top: 0; z-index: 100;
-  box-shadow: 0 4px 20px rgba(15,23,42,0.15);
-}
-.tb-brand {
-  display: flex; align-items: center; gap: 10px;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 16px; font-weight: 700; letter-spacing: -0.3px;
-}
-.tb-logo {
-  width: 34px; height: 34px; border-radius: 10px;
-  background: linear-gradient(135deg, var(--brand), var(--brand-3));
-  display: flex; align-items: center; justify-content: center;
-  font-size: 15px; box-shadow: 0 4px 12px rgba(255,107,0,0.4);
-}
-.tb-badge {
-  background: rgba(255,107,0,0.2); color: var(--brand-3);
-  font-size: 9px; font-weight: 800; letter-spacing: 1px;
-  padding: 3px 8px; border-radius: 5px; text-transform: uppercase;
-  border: 1px solid rgba(255,107,0,0.3); margin-left: 4px;
-}
-.tb-logout {
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.12);
-  color: #fff; padding: 8px 12px; border-radius: 9px;
-  font-family: inherit; font-size: 12px; font-weight: 600;
-  cursor: pointer; display: flex; align-items: center; gap: 6px;
-  transition: all .15s;
-}
-.tb-logout:active { background: rgba(255,255,255,0.15); }
+.topbar{background:linear-gradient(135deg,#0F172A,#1E293B);color:#fff;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(15,23,42,.15)}
+.tb-brand{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;letter-spacing:-.3px}
+.tb-logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--brand-3));display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 4px 12px rgba(255,107,0,.4)}
+.tb-badge{background:rgba(255,107,0,.2);color:var(--brand-3);font-size:9px;font-weight:800;letter-spacing:1px;padding:3px 8px;border-radius:5px;text-transform:uppercase;border:1px solid rgba(255,107,0,.3);margin-left:4px}
+.tb-logout{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#fff;padding:8px 12px;border-radius:9px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px}
 
-/* TABS */
-.tabs-scroll {
-  background: var(--white); border-bottom: 1px solid var(--line);
-  padding: 12px 16px; overflow-x: auto; white-space: nowrap;
-  position: sticky; top: 60px; z-index: 99;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-.tabs-scroll::-webkit-scrollbar { display: none; }
-.tab {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 9px 14px; border-radius: 100px;
-  background: var(--bg); border: 1px solid transparent;
-  font-family: inherit; font-size: 12.5px; font-weight: 600;
-  color: var(--muted); cursor: pointer; margin-right: 6px;
-  transition: all .15s;
-}
-.tab.active { background: linear-gradient(135deg, var(--brand), var(--brand-2)); color: #fff; box-shadow: 0 4px 12px rgba(255,107,0,0.3); }
-.tab i { font-size: 12px; }
+.tabs-scroll{background:var(--white);border-bottom:1px solid var(--line);padding:12px 16px;overflow-x:auto;white-space:nowrap;position:sticky;top:60px;z-index:99;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tabs-scroll::-webkit-scrollbar{display:none}
+.tab{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:100px;background:var(--bg);border:1px solid transparent;font-family:inherit;font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer;margin-right:6px;transition:all .15s}
+.tab.active{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;box-shadow:0 4px 12px rgba(255,107,0,.3)}
 
-/* MAIN */
-.container { padding: 16px; max-width: 1080px; margin: 0 auto; }
-.section { display: none; animation: fadeIn .3s; }
-.section.active { display: block; }
-@keyframes fadeIn { from { opacity:0; transform: translateY(6px) } to { opacity:1; transform: none } }
+.container{padding:16px;max-width:1080px;margin:0 auto}
+.section{display:none;animation:fadeIn .3s}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-/* CARD */
-.card {
-  background: var(--white); border-radius: 16px;
-  padding: 18px; margin-bottom: 14px;
-  border: 1px solid var(--line); box-shadow: var(--shadow-sm);
-}
-.card-title {
-  font-size: 14px; font-weight: 700; letter-spacing: -0.2px;
-  margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
-}
-.card-title i { color: var(--brand); }
+.card{background:var(--white);border-radius:16px;padding:18px;margin-bottom:14px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+.card-title{font-size:14px;font-weight:700;letter-spacing:-.2px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card-title i{color:var(--brand)}
 
-/* STAT CARDS */
-.stat-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 12px; margin-bottom: 16px;
-}
-.stat-card {
-  background: var(--white); border: 1px solid var(--line);
-  border-radius: 14px; padding: 16px;
-  box-shadow: var(--shadow-sm);
-  display: flex; flex-direction: column; gap: 8px;
-}
-.stat-card-icon {
-  width: 38px; height: 38px; border-radius: 11px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px;
-}
-.stat-card-icon.orange { background: linear-gradient(135deg, #FFF7ED, #FFEDD5); color: var(--brand); }
-.stat-card-icon.blue { background: linear-gradient(135deg, #EFF6FF, #DBEAFE); color: var(--info); }
-.stat-card-icon.green { background: linear-gradient(135deg, #ECFDF5, #D1FAE5); color: var(--success); }
-.stat-card-icon.purple { background: linear-gradient(135deg, #F5F3FF, #EDE9FE); color: var(--purple); }
-.stat-card-num {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 26px; font-weight: 700; letter-spacing: -0.5px;
-}
-.stat-card-lbl { font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: .2px; }
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px}
+.stat-card{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:8px}
+.stat-card-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.stat-card-icon.orange{background:linear-gradient(135deg,#FFF7ED,#FFEDD5);color:var(--brand)}
+.stat-card-icon.blue{background:linear-gradient(135deg,#EFF6FF,#DBEAFE);color:var(--info)}
+.stat-card-icon.green{background:linear-gradient(135deg,#ECFDF5,#D1FAE5);color:var(--success)}
+.stat-card-icon.purple{background:linear-gradient(135deg,#F5F3FF,#EDE9FE);color:var(--purple)}
+.stat-card-num{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;letter-spacing:-.5px}
+.stat-card-lbl{font-size:11px;color:var(--muted);font-weight:600}
 
-/* FORM */
-.form-group { margin-bottom: 12px; }
-.form-label {
-  display: block; font-size: 11px; font-weight: 700;
-  color: var(--muted); margin-bottom: 6px;
-  letter-spacing: .5px; text-transform: uppercase;
-}
-.form-control {
-  width: 100%; padding: 11px 13px;
-  border: 1.5px solid var(--line); border-radius: 11px;
-  font-family: inherit; font-size: 13.5px; font-weight: 500;
-  background: var(--white); color: var(--ink); outline: none;
-  transition: all .15s;
-}
-.form-control:focus { border-color: var(--brand); box-shadow: 0 0 0 4px rgba(255,107,0,0.08); }
-textarea.form-control { resize: vertical; min-height: 80px; }
-select.form-control { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='3'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 38px; }
+.form-group{margin-bottom:12px}
+.form-label{display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:6px;letter-spacing:.5px;text-transform:uppercase}
+.form-control{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:11px;font-family:inherit;font-size:13.5px;font-weight:500;background:var(--white);color:var(--ink);outline:none;transition:all .15s}
+.form-control:focus{border-color:var(--brand);box-shadow:0 0 0 4px rgba(255,107,0,.08)}
+textarea.form-control{resize:vertical;min-height:100px;font-family:monospace;font-size:12px;line-height:1.5}
+select.form-control{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='3'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
 
-/* BUTTONS */
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  padding: 10px 16px; border-radius: 10px; border: none;
-  font-family: inherit; font-size: 12.5px; font-weight: 700;
-  cursor: pointer; transition: all .15s;
-  letter-spacing: -0.1px;
-}
-.btn:active { transform: scale(.97); }
-.btn-primary { background: linear-gradient(135deg, var(--brand), var(--brand-2)); color: #fff; box-shadow: 0 4px 12px rgba(255,107,0,0.25); }
-.btn-success { background: linear-gradient(135deg, #10B981, #059669); color: #fff; box-shadow: 0 4px 12px rgba(16,185,129,0.25); }
-.btn-danger { background: linear-gradient(135deg, #EF4444, #DC2626); color: #fff; }
-.btn-info { background: linear-gradient(135deg, #3B82F6, #2563EB); color: #fff; }
-.btn-warn { background: linear-gradient(135deg, #F59E0B, #D97706); color: #fff; }
-.btn-ghost { background: var(--bg); color: var(--ink-2); border: 1px solid var(--line); }
-.btn-sm { padding: 7px 11px; font-size: 11.5px; }
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 16px;border-radius:10px;border:none;font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;transition:all .15s}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;box-shadow:0 4px 12px rgba(255,107,0,.25)}
+.btn-success{background:linear-gradient(135deg,#10B981,#059669);color:#fff;box-shadow:0 4px 12px rgba(16,185,129,.25)}
+.btn-danger{background:linear-gradient(135deg,#EF4444,#DC2626);color:#fff}
+.btn-info{background:linear-gradient(135deg,#3B82F6,#2563EB);color:#fff}
+.btn-warn{background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff}
+.btn-ghost{background:var(--bg);color:var(--ink-2);border:1px solid var(--line)}
+.btn-sm{padding:7px 11px;font-size:11.5px}
+.btn-full{width:100%}
 
-/* ROW */
-.row {
-  display: flex; align-items: center; gap: 10px;
-  padding: 12px 0; border-bottom: 1px solid var(--line);
-  flex-wrap: wrap;
-}
-.row:last-child { border-bottom: none; }
-.row-info { flex: 1; min-width: 180px; }
-.row-title {
-  font-size: 13.5px; font-weight: 700; letter-spacing: -0.1px;
-  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-}
-.row-sub { font-size: 11.5px; color: var(--muted); margin-top: 4px; line-height: 1.5; word-break: break-word; }
-.row-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.row:last-child{border-bottom:none}
+.row-info{flex:1;min-width:180px}
+.row-title{font-size:13.5px;font-weight:700;letter-spacing:-.1px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.row-sub{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.5;word-break:break-word}
+.row-actions{display:flex;gap:6px;flex-wrap:wrap}
 
-/* BADGE */
-.badge {
-  display: inline-flex; align-items: center; gap: 4px;
-  padding: 3px 8px; border-radius: 100px;
-  font-size: 10px; font-weight: 700; letter-spacing: .3px;
-  text-transform: uppercase;
-}
-.badge.success { background: #D1FAE5; color: #047857; }
-.badge.danger { background: #FEE2E2; color: #B91C1C; }
-.badge.warn { background: #FEF3C7; color: #B45309; }
-.badge.info { background: #DBEAFE; color: #1D4ED8; }
-.badge.gray { background: #F1F5F9; color: var(--muted); }
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:.3px;text-transform:uppercase}
+.badge.success{background:#D1FAE5;color:#047857}
+.badge.danger{background:#FEE2E2;color:#B91C1C}
+.badge.warn{background:#FEF3C7;color:#B45309}
+.badge.info{background:#DBEAFE;color:#1D4ED8}
+.badge.gray{background:#F1F5F9;color:var(--muted)}
 
-/* EMPTY */
-.empty {
-  text-align: center; padding: 40px 20px;
-  color: var(--muted);
-}
-.empty i { font-size: 40px; opacity: .2; color: var(--brand); display: block; margin-bottom: 12px; }
-.empty p { font-size: 13px; font-weight: 500; }
+.empty{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty i{font-size:40px;opacity:.2;color:var(--brand);display:block;margin-bottom:12px}
+.empty p{font-size:13px;font-weight:500}
+.loading{text-align:center;padding:40px;color:var(--muted);font-size:13px}
+.loading i{display:block;font-size:24px;color:var(--brand);margin-bottom:8px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-/* LOADING */
-.loading { text-align: center; padding: 40px; color: var(--muted); font-size: 13px; }
-.loading i { display: block; font-size: 24px; color: var(--brand); margin-bottom: 8px; animation: spin 1s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg) } }
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0F172A 0%,#1E293B 50%,#312E81 100%);padding:20px;position:relative;overflow:hidden}
+.login-wrap::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,0,.15),transparent 70%)}
+.login-card{background:var(--white);border-radius:24px;padding:32px 26px;width:100%;max-width:400px;box-shadow:0 32px 80px rgba(0,0,0,.4);position:relative;z-index:1}
+.login-logo{width:60px;height:60px;border-radius:18px;background:linear-gradient(135deg,var(--brand),var(--brand-3));display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;margin:0 auto 18px;box-shadow:0 12px 32px rgba(255,107,0,.35)}
+.login-title{text-align:center;font-size:22px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px}
+.login-sub{text-align:center;font-size:13px;color:var(--muted);margin-bottom:24px}
+.login-btn{width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 8px 20px rgba(255,107,0,.3);margin-top:6px}
 
-/* LOGIN */
-.login-wrap {
-  min-height: 100vh; display: flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #312E81 100%);
-  padding: 20px; position: relative; overflow: hidden;
-}
-.login-wrap::before {
-  content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
-  width: 500px; height: 500px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,107,0,0.15), transparent 70%);
-}
-.login-card {
-  background: var(--white); border-radius: 24px;
-  padding: 32px 26px; width: 100%; max-width: 400px;
-  box-shadow: 0 32px 80px rgba(0,0,0,0.4);
-  position: relative; z-index: 1;
-}
-.login-logo {
-  width: 60px; height: 60px; border-radius: 18px;
-  background: linear-gradient(135deg, var(--brand), var(--brand-3));
-  display: flex; align-items: center; justify-content: center;
-  font-size: 26px; color: #fff; margin: 0 auto 18px;
-  box-shadow: 0 12px 32px rgba(255,107,0,0.35);
-}
-.login-title { text-align: center; font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 6px; }
-.login-sub { text-align: center; font-size: 13px; color: var(--muted); margin-bottom: 24px; }
-.login-btn {
-  width: 100%; padding: 14px; border-radius: 12px; border: none;
-  background: linear-gradient(135deg, var(--brand), var(--brand-2));
-  color: #fff; font-family: inherit; font-size: 14px; font-weight: 700;
-  cursor: pointer; box-shadow: 0 8px 20px rgba(255,107,0,0.3);
-  margin-top: 6px;
-}
+.toast{position:fixed;top:76px;left:50%;transform:translateX(-50%) translateY(-16px);background:#0F172A;color:#fff;padding:12px 20px;border-radius:100px;font-size:13px;font-weight:600;z-index:9999;opacity:0;transition:all .3s;pointer-events:none;max-width:calc(100% - 32px);text-align:center;box-shadow:0 12px 32px rgba(0,0,0,.25)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.success{background:linear-gradient(135deg,#10B981,#059669)}
+.toast.error{background:linear-gradient(135deg,#EF4444,#DC2626)}
 
-/* TOAST */
-.toast {
-  position: fixed; top: 76px; left: 50%; transform: translateX(-50%) translateY(-16px);
-  background: #0F172A; color: #fff;
-  padding: 12px 20px; border-radius: 100px;
-  font-size: 13px; font-weight: 600;
-  z-index: 9999; opacity: 0; transition: all .3s;
-  pointer-events: none; max-width: calc(100% - 32px); text-align: center;
-  box-shadow: 0 12px 32px rgba(0,0,0,0.25);
-}
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-.toast.success { background: linear-gradient(135deg, #10B981, #059669); }
-.toast.error { background: linear-gradient(135deg, #EF4444, #DC2626); }
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+@media(max-width:480px){.form-row{grid-template-columns:1fr}}
 
-/* FORM ROW */
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-@media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+.code-chip{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:1px solid #FED7AA;padding:5px 10px;border-radius:8px;font-family:'Space Grotesk',monospace;font-size:12.5px;font-weight:700;color:var(--brand)}
 
-/* CODE CHIP */
-.code-chip {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: linear-gradient(135deg, #FFF7ED, #FFEDD5);
-  border: 1px solid #FED7AA;
-  padding: 5px 10px; border-radius: 8px;
-  font-family: 'Space Grotesk', monospace;
-  font-size: 12.5px; font-weight: 700; color: var(--brand);
-}
+.hint{background:#F0F9FF;border:1px solid #BAE6FD;border-radius:12px;padding:12px 14px;font-size:12px;color:#075985;line-height:1.5;margin-bottom:14px}
+.hint i{color:var(--info);margin-right:4px}
+.hint.warn{background:#FFFBEB;border-color:#FCD34D;color:#92400E}
+.hint.warn i{color:var(--warn)}
 
-/* HINT */
-.hint {
-  background: #F0F9FF; border: 1px solid #BAE6FD;
-  border-radius: 12px; padding: 12px 14px;
-  font-size: 12px; color: #075985; line-height: 1.5;
-  margin-bottom: 14px;
-}
-.hint i { color: var(--info); margin-right: 4px; }
+.ad-box{background:#F8FAFC;border:1.5px dashed var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
+.ad-status{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.ad-name{font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px}
+.ad-dot{width:8px;height:8px;border-radius:50%;background:#CBD5E1}
+.ad-dot.active{background:var(--success);box-shadow:0 0 8px rgba(16,185,129,.5)}
 </style>
 </head>
 <body>
@@ -316,6 +146,8 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
   <div class="tabs-scroll">
     <button class="tab active" onclick="showTab('dashboard',this)"><i class="fas fa-chart-line"></i> Dashboard</button>
     <button class="tab" onclick="showTab('users',this)"><i class="fas fa-users"></i> Users</button>
+    <button class="tab" onclick="showTab('tasks',this)"><i class="fas fa-tasks"></i> Tasks</button>
+    <button class="tab" onclick="showTab('ads',this)"><i class="fas fa-ad"></i> Ads</button>
     <button class="tab" onclick="showTab('activations',this)"><i class="fas fa-unlock"></i> Activations</button>
     <button class="tab" onclick="showTab('withdrawals',this)"><i class="fas fa-money-bill"></i> Withdrawals</button>
     <button class="tab" onclick="showTab('submissions',this)"><i class="fas fa-inbox"></i> Sell Subs</button>
@@ -328,34 +160,18 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
     <!-- DASHBOARD -->
     <div class="section active" id="sec-dashboard">
       <div class="stat-grid">
-        <div class="stat-card">
-          <div class="stat-card-icon orange"><i class="fas fa-users"></i></div>
-          <div class="stat-card-num" id="statUsers">0</div>
-          <div class="stat-card-lbl">Total Users</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-icon green"><i class="fas fa-user-check"></i></div>
-          <div class="stat-card-num" id="statActive">0</div>
-          <div class="stat-card-lbl">Active Users</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-icon purple"><i class="fas fa-clock"></i></div>
-          <div class="stat-card-num" id="statPending">0</div>
-          <div class="stat-card-lbl">Pending</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-icon blue"><i class="fas fa-coins"></i></div>
-          <div class="stat-card-num" id="statBalance">৳0</div>
-          <div class="stat-card-lbl">Total Balance</div>
-        </div>
+        <div class="stat-card"><div class="stat-card-icon orange"><i class="fas fa-users"></i></div><div class="stat-card-num" id="statUsers">0</div><div class="stat-card-lbl">Total Users</div></div>
+        <div class="stat-card"><div class="stat-card-icon green"><i class="fas fa-user-check"></i></div><div class="stat-card-num" id="statActive">0</div><div class="stat-card-lbl">Active</div></div>
+        <div class="stat-card"><div class="stat-card-icon purple"><i class="fas fa-clock"></i></div><div class="stat-card-num" id="statPending">0</div><div class="stat-card-lbl">Pending</div></div>
+        <div class="stat-card"><div class="stat-card-icon blue"><i class="fas fa-coins"></i></div><div class="stat-card-num" id="statBalance">৳0</div><div class="stat-card-lbl">Total Balance</div></div>
       </div>
       <div class="card">
         <div class="card-title"><i class="fas fa-bolt"></i> Quick Actions</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          <button class="btn btn-primary" onclick="showTab('activations',document.querySelectorAll('.tab')[2])"><i class="fas fa-unlock"></i> Activations</button>
-          <button class="btn btn-info" onclick="showTab('withdrawals',document.querySelectorAll('.tab')[3])"><i class="fas fa-money-bill"></i> Withdrawals</button>
-          <button class="btn btn-success" onclick="showTab('config',document.querySelectorAll('.tab')[6])"><i class="fas fa-cog"></i> Config</button>
-          <button class="btn btn-ghost" onclick="loadDashboard()"><i class="fas fa-sync"></i> Refresh</button>
+          <button class="btn btn-primary" onclick="showTab('activations',document.querySelectorAll('.tab')[4])"><i class="fas fa-unlock"></i> Activations</button>
+          <button class="btn btn-info" onclick="showTab('withdrawals',document.querySelectorAll('.tab')[5])"><i class="fas fa-money-bill"></i> Withdrawals</button>
+          <button class="btn btn-success" onclick="showTab('tasks',document.querySelectorAll('.tab')[2])"><i class="fas fa-tasks"></i> Tasks</button>
+          <button class="btn btn-warn" onclick="showTab('ads',document.querySelectorAll('.tab')[3])"><i class="fas fa-ad"></i> Ads</button>
         </div>
       </div>
     </div>
@@ -369,6 +185,84 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
       <div class="card">
         <div class="card-title"><i class="fas fa-users"></i> All Users <span style="color:var(--muted);font-weight:500;margin-left:auto;font-size:12px" id="userCount">0</span></div>
         <div id="usersList"></div>
+      </div>
+    </div>
+
+    <!-- TASKS MANAGER -->
+    <div class="section" id="sec-tasks">
+      <div class="hint"><i class="fas fa-info-circle"></i> এখানে টাস্ক যোগ করলে ইউজার অ্যাপে সাথে সাথে দেখা যাবে।</div>
+      
+      <div class="card">
+        <div class="card-title"><i class="fas fa-briefcase"></i> Add Daily Task</div>
+        <div class="form-row">
+          <input type="text" class="form-control" id="taskTitle" placeholder="Task Title (যেমন: Facebook Like)">
+          <input type="number" class="form-control" id="taskReward" placeholder="Reward ৳">
+        </div>
+        <div class="form-row">
+          <input type="number" class="form-control" id="taskTime" placeholder="Time (seconds)" value="20">
+          <input type="url" class="form-control" id="taskLink" placeholder="https://task-link.com">
+        </div>
+        <button class="btn btn-success btn-full" onclick="addDailyTask()"><i class="fas fa-plus"></i> Add Daily Task</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><i class="fas fa-list"></i> Daily Tasks <span style="color:var(--muted);font-weight:500;margin-left:auto;font-size:12px" id="taskCount">0</span></div>
+        <div id="dailyTasksList"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><i class="fas fa-globe"></i> Add Visit Task</div>
+        <div class="form-row">
+          <input type="text" class="form-control" id="visitTitle" placeholder="Visit Title">
+          <input type="number" class="form-control" id="visitReward" placeholder="Reward ৳">
+        </div>
+        <div class="form-row">
+          <input type="number" class="form-control" id="visitWait" placeholder="Wait (seconds)" value="20">
+          <input type="url" class="form-control" id="visitLink" placeholder="https://visit-link.com">
+        </div>
+        <button class="btn btn-info btn-full" onclick="addVisitTask()"><i class="fas fa-plus"></i> Add Visit Task</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><i class="fas fa-list"></i> Visit Tasks <span style="color:var(--muted);font-weight:500;margin-left:auto;font-size:12px" id="visitCount">0</span></div>
+        <div id="visitTasksList"></div>
+      </div>
+    </div>
+
+    <!-- ADS MANAGER -->
+    <div class="section" id="sec-ads">
+      <div class="hint warn"><i class="fas fa-exclamation-triangle"></i> <strong>গুরুত্বপূর্ণ:</strong> Monetag / Adsterra থেকে পুরো script code কপি করে নিচের বক্সে পেস্ট করুন। Save করলে ইউজার অ্যাপে সাথে সাথে inject হবে।</div>
+
+      <div class="card">
+        <div class="card-title"><i class="fas fa-ad"></i> Ad Networks</div>
+
+        <div class="ad-box">
+          <div class="ad-status">
+            <div class="ad-name"><i class="fas fa-bolt" style="color:#8B5CF6"></i> Monetag</div>
+            <div><span class="ad-dot" id="monetagDot"></span> <span style="font-size:11px;color:var(--muted)" id="monetagStatus">Not Set</span></div>
+          </div>
+          <textarea class="form-control" id="cfgMonetag" rows="6" placeholder="Monetag script code এখানে পেস্ট করুন...&#10;&#10;<script src='//libtl.com/sdk.js' data-zone='...' data-sdk='...'></script>"></textarea>
+        </div>
+
+        <div class="ad-box">
+          <div class="ad-status">
+            <div class="ad-name"><i class="fas fa-bullhorn" style="color:#3B82F6"></i> Adsterra</div>
+            <div><span class="ad-dot" id="adsterraDot"></span> <span style="font-size:11px;color:var(--muted)" id="adsterraStatus">Not Set</span></div>
+          </div>
+          <textarea class="form-control" id="cfgAdsterra" rows="6" placeholder="Adsterra script code এখানে পেস্ট করুন...&#10;&#10;<script src='//pl12345.adsterra.com/...'></script>"></textarea>
+        </div>
+
+        <button class="btn btn-primary btn-full" onclick="saveAds()"><i class="fas fa-save"></i> Save Ad Codes</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><i class="fas fa-info-circle"></i> নির্দেশনা</div>
+        <div style="font-size:12.5px;color:var(--muted);line-height:1.7">
+          <p style="margin-bottom:8px"><strong style="color:var(--ink)">Monetag:</strong> monetag.com → Sign Up → Add Website → Create Zone → Copy Script</p>
+          <p style="margin-bottom:8px"><strong style="color:var(--ink)">Adsterra:</strong> adsterra.com → Sign Up as Publisher → Add Website → Add Ad Unit → Copy Script</p>
+          <p style="margin-bottom:8px"><strong style="color:var(--warn)">⚠️ সতর্কতা:</strong> Netlify free subdomain (যেমন xxx.netlify.app) কিছু নেটওয়ার্ক গ্রহণ করে না। Custom domain থাকলে ভালো।</p>
+          <p><strong style="color:var(--ink)">💰 Payout:</strong> Monetag $5 min · Adsterra $5 min · Crypto/Payeer</p>
+        </div>
       </div>
     </div>
 
@@ -406,44 +300,51 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
 
     <!-- CONFIG -->
     <div class="section" id="sec-config">
-      <div class="hint"><i class="fas fa-info-circle"></i> এই সেটিংসগুলো ইউজার অ্যাপে সরাসরি প্রতিফলিত হয়। পরিবর্তন করে Save করুন।</div>
+      <div class="hint"><i class="fas fa-info-circle"></i> এই সেটিংস ইউজার অ্যাপে সরাসরি প্রতিফলিত হয়।</div>
+
+      <div class="card">
+        <div class="card-title"><i class="fas fa-globe"></i> Site Settings</div>
+        <div class="form-group">
+          <label class="form-label">App Name</label>
+          <input type="text" class="form-control" id="cfgAppName" placeholder="TK EARN">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Support / WhatsApp Number</label>
+          <input type="text" class="form-control" id="cfgSupport" placeholder="01XXXXXXXXX">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Notice (Home Page)</label>
+          <textarea class="form-control" id="cfgNotice" rows="2" style="font-family:inherit;font-size:13px" placeholder="Notice লিখুন..."></textarea>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="saveSiteSettings()"><i class="fas fa-save"></i> Save Site Settings</button>
+      </div>
+
       <div class="card">
         <div class="card-title"><i class="fas fa-sliders-h"></i> App Settings</div>
         <div class="form-row">
-          <div><label class="form-label">Activation Charge (৳)</label><input type="number" class="form-control" id="cfgActivation"></div>
-          <div><label class="form-label">Min Withdraw (৳)</label><input type="number" class="form-control" id="cfgMinWithdraw"></div>
+          <div><label class="form-label">Activation Charge ৳</label><input type="number" class="form-control" id="cfgActivation"></div>
+          <div><label class="form-label">Min Withdraw ৳</label><input type="number" class="form-control" id="cfgMinWithdraw"></div>
         </div>
         <div class="form-row">
-          <div><label class="form-label">Refer Bonus (৳)</label><input type="number" class="form-control" id="cfgRefBonus"></div>
-          <div><label class="form-label">Signup Bonus (৳)</label><input type="number" class="form-control" id="cfgSignupBonus"></div>
+          <div><label class="form-label">Refer Bonus ৳</label><input type="number" class="form-control" id="cfgRefBonus"></div>
+          <div><label class="form-label">Signup Bonus ৳</label><input type="number" class="form-control" id="cfgSignupBonus"></div>
         </div>
         <div class="form-row">
           <div><label class="form-label">bKash Number</label><input type="text" class="form-control" id="cfgBkash"></div>
           <div><label class="form-label">Nagad Number</label><input type="text" class="form-control" id="cfgNagad"></div>
         </div>
         <div style="margin-bottom:12px"><label class="form-label">Rocket Number</label><input type="text" class="form-control" id="cfgRocket"></div>
-        <button class="btn btn-primary" onclick="saveSettings()"><i class="fas fa-save"></i> Save Settings</button>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><i class="fas fa-bullhorn"></i> Notice</div>
-        <textarea class="form-control" id="cfgNotice" rows="3" placeholder="Notice লিখুন..."></textarea>
-        <button class="btn btn-primary" style="margin-top:10px" onclick="saveNotice()"><i class="fas fa-save"></i> Save Notice</button>
+        <button class="btn btn-primary btn-full" onclick="saveSettings()"><i class="fas fa-save"></i> Save Settings</button>
       </div>
 
       <div class="card">
         <div class="card-title"><i class="fas fa-gift"></i> Gift Codes</div>
         <div class="form-row">
           <input type="text" class="form-control" id="newCode" placeholder="CODE" style="text-transform:uppercase;font-family:'Space Grotesk',monospace;letter-spacing:1px">
-          <input type="number" class="form-control" id="newCodeAmt" placeholder="Amount (৳)">
+          <input type="number" class="form-control" id="newCodeAmt" placeholder="Amount ৳">
         </div>
-        <button class="btn btn-success" onclick="addGiftCode()"><i class="fas fa-plus"></i> Add Code</button>
+        <button class="btn btn-success btn-full" onclick="addGiftCode()"><i class="fas fa-plus"></i> Add Gift Code</button>
         <div id="giftCodesList" style="margin-top:12px"></div>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><i class="fas fa-tasks"></i> Daily Tasks</div>
-        <div id="dailyTasksList"></div>
       </div>
     </div>
 
@@ -453,6 +354,7 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
 <div class="toast" id="toast"></div>
 
 <script>
+// ============ FIREBASE CONFIG ============
 const firebaseConfig = {
   apiKey: "AIzaSyAHcAqvCFk-AxSVHf_YWqO8hyb-bgZacKg",
   authDomain: "tk-earn-30bb1.firebaseapp.com",
@@ -498,9 +400,11 @@ function showTab(id, btn) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById('sec-' + id).classList.add('active');
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
+  if(btn) btn.classList.add('active');
   if(id === 'dashboard') loadDashboard();
   if(id === 'users') loadUsers();
+  if(id === 'tasks') loadTasks();
+  if(id === 'ads') loadAds();
   if(id === 'activations') loadActivations();
   if(id === 'withdrawals') loadWithdrawals();
   if(id === 'submissions') loadSubmissions();
@@ -508,6 +412,7 @@ function showTab(id, btn) {
   if(id === 'config') loadConfig();
 }
 
+// ============ DASHBOARD ============
 async function loadDashboard() {
   try {
     const usersSnap = await db.collection('users').get();
@@ -522,14 +427,14 @@ async function loadDashboard() {
     const w = await db.collection('withdrawals').where('status','==','pending').get();
     const a = await db.collection('activation_requests').where('status','==','pending').get();
     pending = w.size + a.size;
-
     document.getElementById('statUsers').textContent = total;
     document.getElementById('statActive').textContent = active;
     document.getElementById('statPending').textContent = pending;
     document.getElementById('statBalance').textContent = '৳' + bal.toFixed(0);
-  } catch(e) { toast(e.message, 'error'); }
+  } catch(e) {}
 }
 
+// ============ USERS ============
 async function loadUsers() {
   try {
     const snap = await db.collection('users').orderBy('createdAt','desc').limit(200).get();
@@ -542,10 +447,7 @@ async function loadUsers() {
 
 function renderUsers() {
   const q = (document.getElementById('userSearch').value || '').toLowerCase();
-  const filtered = allUsers.filter(u =>
-    !q || (u.name||'').toLowerCase().includes(q) || (u.email||'').toLowerCase().includes(q) ||
-    String(u.userId||'').includes(q) || u.uid.includes(q)
-  );
+  const filtered = allUsers.filter(u => !q || (u.name||'').toLowerCase().includes(q) || (u.email||'').toLowerCase().includes(q) || String(u.userId||'').includes(q) || u.uid.includes(q));
   document.getElementById('userCount').textContent = filtered.length;
   const el = document.getElementById('usersList');
   if(!filtered.length) { el.innerHTML = '<div class="empty"><i class="fas fa-users"></i><p>কোনো ইউজার নেই</p></div>'; return; }
@@ -560,7 +462,7 @@ function renderUsers() {
       <div class="row-actions">
         <button class="btn btn-success btn-sm" onclick="adjustBalance('${u.uid}', 50)">+৳50</button>
         <button class="btn btn-info btn-sm" onclick="promptAdjust('${u.uid}','${(u.name||'').replace(/'/g,"\\'")}')"><i class="fas fa-edit"></i></button>
-        <button class="btn ${status==='active'?'btn-warn':'btn-success'} btn-sm" onclick="toggleStatus('${u.uid}','${status}')">${status==='active'?'Deactivate':'Activate'}</button>
+        <button class="btn ${status==='active'?'btn-warn':'btn-success'} btn-sm" onclick="toggleStatus('${u.uid}','${status}')">${status==='active'?'Deact':'Active'}</button>
         <button class="btn btn-danger btn-sm" onclick="banUser('${u.uid}','${status}')">${status==='banned'?'Unban':'Ban'}</button>
       </div>
     </div>`;
@@ -573,7 +475,7 @@ async function adjustBalance(uid, amt) {
     const ref = db.collection('users').doc(uid);
     await ref.update({ balance: firebase.firestore.FieldValue.increment(amt) });
     await ref.collection('transactions').add({ title: 'Admin Bonus', amount: amt, positive: true, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
-    toast('✅ ৳' + amt + ' যোগ হয়েছে', 'success');
+    toast('✅ যোগ হয়েছে', 'success');
     loadUsers();
   } catch(e) { toast(e.message, 'error'); }
 }
@@ -590,7 +492,7 @@ async function promptAdjust(uid, name) {
       title: amt > 0 ? 'Admin Bonus' : 'Admin Deduction',
       amount: Math.abs(amt), positive: amt > 0, createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    toast('✅ আপডেট হয়েছে', 'success');
+    toast('✅ আপডেট', 'success');
     loadUsers();
   } catch(e) { toast(e.message, 'error'); }
 }
@@ -608,6 +510,155 @@ async function banUser(uid, current) {
   catch(e) { toast(e.message, 'error'); }
 }
 
+// ============ TASKS ============
+async function loadTasks() {
+  try {
+    const doc = await db.collection('app_config').doc('main').get();
+    const m = doc.exists ? doc.data() : {};
+    renderDailyTasks(m.dailyTasks || []);
+    renderVisitTasks(m.visitTasks || []);
+  } catch(e) { toast(e.message, 'error'); }
+}
+
+function renderDailyTasks(tasks) {
+  document.getElementById('taskCount').textContent = tasks.length;
+  const el = document.getElementById('dailyTasksList');
+  if(!tasks.length) { el.innerHTML = '<div class="empty"><i class="fas fa-tasks"></i><p>No tasks</p></div>'; return; }
+  el.innerHTML = tasks.map(t => `
+    <div class="row">
+      <div class="row-info">
+        <div class="row-title">${t.title} <span class="badge success">৳${t.reward}</span></div>
+        <div class="row-sub">⏱ ${t.time||'20s'} · <a href="${t.link||'#'}" target="_blank" style="color:var(--info)">${(t.link||'').substring(0,40)}</a></div>
+      </div>
+      <button class="btn btn-danger btn-sm" onclick="deleteDailyTask(${t.id})"><i class="fas fa-trash"></i></button>
+    </div>
+  `).join('');
+}
+
+async function addDailyTask() {
+  const title = document.getElementById('taskTitle').value.trim();
+  const reward = parseFloat(document.getElementById('taskReward').value);
+  const time = (document.getElementById('taskTime').value.trim() || '20') + 's';
+  const link = document.getElementById('taskLink').value.trim();
+  if(!title || !reward) return toast('Title ও Reward দিন', 'error');
+  try {
+    const doc = await db.collection('app_config').doc('main').get();
+    const existing = doc.exists ? (doc.data().dailyTasks || []) : [];
+    const newId = existing.length ? Math.max(...existing.map(t => t.id || 0)) + 1 : 1;
+    existing.push({ id: newId, title, reward, time, link });
+    await db.collection('app_config').doc('main').set({ dailyTasks: existing }, { merge: true });
+    document.getElementById('taskTitle').value = '';
+    document.getElementById('taskReward').value = '';
+    document.getElementById('taskLink').value = '';
+    toast('✅ Task added', 'success');
+    loadTasks();
+  } catch(e) { toast(e.message, 'error'); }
+}
+
+async function deleteDailyTask(id) {
+  if(!confirm('Delete?')) return;
+  try {
+    const doc = await db.collection('app_config').doc('main').get();
+    const existing = doc.exists ? (doc.data().dailyTasks || []) : [];
+    const updated = existing.filter(t => t.id !== id);
+    await db.collection('app_config').doc('main').set({ dailyTasks: updated }, { merge: true });
+    toast('✅ Deleted', 'success');
+    loadTasks();
+  } catch(e) { toast(e.message, 'error'); }
+}
+
+function renderVisitTasks(tasks) {
+  document.getElementById('visitCount').textContent = tasks.length;
+  const el = document.getElementById('visitTasksList');
+  if(!tasks.length) { el.innerHTML = '<div class="empty"><i class="fas fa-globe"></i><p>No visit tasks</p></div>'; return; }
+  el.innerHTML = tasks.map(t => `
+    <div class="row">
+      <div class="row-info">
+        <div class="row-title">${t.title} <span class="badge info">৳${t.reward}</span></div>
+        <div class="row-sub">⏱ ${t.wait||20}s · <a href="${t.link||'#'}" target="_blank" style="color:var(--info)">${(t.link||'').substring(0,40)}</a></div>
+      </div>
+      <button class="btn btn-danger btn-sm" onclick="deleteVisitTask(${t.id})"><i class="fas fa-trash"></i></button>
+    </div>
+  `).join('');
+}
+
+async function addVisitTask() {
+  const title = document.getElementById('visitTitle').value.trim();
+  const reward = parseFloat(document.getElementById('visitReward').value);
+  const wait = parseInt(document.getElementById('visitWait').value) || 20;
+  const link = document.getElementById('visitLink').value.trim();
+  if(!title || !reward) return toast('Title ও Reward দিন', 'error');
+  try {
+    const doc = await db.collection('app_config').doc('main').get();
+    const existing = doc.exists ? (doc.data().visitTasks || []) : [];
+    const newId = existing.length ? Math.max(...existing.map(t => t.id || 0)) + 1 : 1;
+    existing.push({ id: newId, title, reward, wait, link });
+    await db.collection('app_config').doc('main').set({ visitTasks: existing }, { merge: true });
+    document.getElementById('visitTitle').value = '';
+    document.getElementById('visitReward').value = '';
+    document.getElementById('visitLink').value = '';
+    toast('✅ Visit task added', 'success');
+    loadTasks();
+  } catch(e) { toast(e.message, 'error'); }
+}
+
+async function deleteVisitTask(id) {
+  if(!confirm('Delete?')) return;
+  try {
+    const doc = await db.collection('app_config').doc('main').get();
+    const existing = doc.exists ? (doc.data().visitTasks || []) : [];
+    const updated = existing.filter(t => t.id !== id);
+    await db.collection('app_config').doc('main').set({ visitTasks: updated }, { merge: true });
+    toast('✅ Deleted', 'success');
+    loadTasks();
+  } catch(e) { toast(e.message, 'error'); }
+}
+
+// ============ ADS ============
+async function loadAds() {
+  try {
+    const doc = await db.collection('app_config').doc('ads').get();
+    if(doc.exists) {
+      const d = doc.data();
+      document.getElementById('cfgMonetag').value = d.monetag || '';
+      document.getElementById('cfgAdsterra').value = d.adsterra || '';
+      updateAdStatus('monetag', d.monetag);
+      updateAdStatus('adsterra', d.adsterra);
+    }
+  } catch(e) {}
+}
+
+function updateAdStatus(name, code) {
+  const dot = document.getElementById(name + 'Dot');
+  const stat = document.getElementById(name + 'Status');
+  if(!dot || !stat) return;
+  if(code && code.trim().length > 20) {
+    dot.classList.add('active');
+    stat.textContent = 'Active';
+    stat.style.color = 'var(--success)';
+  } else {
+    dot.classList.remove('active');
+    stat.textContent = 'Not Set';
+    stat.style.color = 'var(--muted)';
+  }
+}
+
+async function saveAds() {
+  const mon = document.getElementById('cfgMonetag').value.trim();
+  const ads = document.getElementById('cfgAdsterra').value.trim();
+  try {
+    await db.collection('app_config').doc('ads').set({
+      monetag: mon,
+      adsterra: ads,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+    updateAdStatus('monetag', mon);
+    updateAdStatus('adsterra', ads);
+    toast('✅ Ad codes saved', 'success');
+  } catch(e) { toast(e.message, 'error'); }
+}
+
+// ============ ACTIVATIONS ============
 async function loadActivations() {
   try {
     const snap = await db.collection('activation_requests').orderBy('createdAt','desc').limit(100).get();
@@ -631,7 +682,7 @@ async function loadActivations() {
 }
 
 async function approveActivation(reqId, uid, amount) {
-  if(!confirm('Approve করবেন?')) return;
+  if(!confirm('Approve?')) return;
   try {
     await db.collection('users').doc(uid).update({ status: 'active' });
     await db.collection('activation_requests').doc(reqId).update({ status: 'approved', approvedAt: firebase.firestore.FieldValue.serverTimestamp() });
@@ -644,11 +695,12 @@ async function approveActivation(reqId, uid, amount) {
 }
 
 async function rejectActivation(reqId) {
-  if(!confirm('Reject করবেন?')) return;
+  if(!confirm('Reject?')) return;
   await db.collection('activation_requests').doc(reqId).update({ status: 'rejected' });
   toast('Rejected'); loadActivations();
 }
 
+// ============ WITHDRAWALS ============
 async function loadWithdrawals() {
   try {
     const snap = await db.collection('withdrawals').orderBy('createdAt','desc').limit(100).get();
@@ -674,7 +726,7 @@ async function loadWithdrawals() {
 async function approveWithdraw(id) {
   if(!confirm('Approve?')) return;
   await db.collection('withdrawals').doc(id).update({ status: 'approved', approvedAt: firebase.firestore.FieldValue.serverTimestamp() });
-  toast('✅ Approved', 'success'); loadWithdrawals();
+  toast('✅ Approved'); loadWithdrawals();
 }
 
 async function rejectWithdraw(id, uid, amount, type) {
@@ -688,6 +740,7 @@ async function rejectWithdraw(id, uid, amount, type) {
   toast('Rejected + Refunded'); loadWithdrawals();
 }
 
+// ============ SUBMISSIONS ============
 async function loadSubmissions() {
   try {
     const snap = await db.collection('submissions').orderBy('createdAt','desc').limit(100).get();
@@ -731,6 +784,7 @@ async function rejectSubmission(id) {
   toast('Rejected'); loadSubmissions();
 }
 
+// ============ POST WORK ============
 async function loadPostWork() {
   try {
     const snap = await db.collection('postWork').orderBy('createdAt','desc').limit(100).get();
@@ -770,6 +824,7 @@ async function rejectPost(id) {
   toast('Rejected'); loadPostWork();
 }
 
+// ============ CONFIG ============
 async function loadConfig() {
   try {
     const sDoc = await db.collection('app_config').doc('settings').get();
@@ -781,12 +836,26 @@ async function loadConfig() {
     document.getElementById('cfgBkash').value = settings.bkashNum || '';
     document.getElementById('cfgNagad').value = settings.nagadNum || '';
     document.getElementById('cfgRocket').value = settings.rocketNum || '';
+    document.getElementById('cfgAppName').value = settings.appName || 'TK EARN';
+    document.getElementById('cfgSupport').value = settings.supportNum || '';
 
     const mDoc = await db.collection('app_config').doc('main').get();
     const m = mDoc.exists ? mDoc.data() : {};
     document.getElementById('cfgNotice').value = m.notice || '';
     renderGiftCodes(m.giftCodes || {});
-    renderDailyTasks(m.dailyTasks || []);
+  } catch(e) { toast(e.message, 'error'); }
+}
+
+async function saveSiteSettings() {
+  try {
+    await db.collection('app_config').doc('settings').set({
+      appName: document.getElementById('cfgAppName').value.trim() || 'TK EARN',
+      supportNum: document.getElementById('cfgSupport').value.trim()
+    }, { merge: true });
+    await db.collection('app_config').doc('main').set({
+      notice: document.getElementById('cfgNotice').value.trim()
+    }, { merge: true });
+    toast('✅ Site settings saved', 'success');
   } catch(e) { toast(e.message, 'error'); }
 }
 
@@ -802,13 +871,6 @@ async function saveSettings() {
       rocketNum: document.getElementById('cfgRocket').value.trim()
     }, { merge: true });
     toast('✅ Settings saved', 'success');
-  } catch(e) { toast(e.message, 'error'); }
-}
-
-async function saveNotice() {
-  try {
-    await db.collection('app_config').doc('main').set({ notice: document.getElementById('cfgNotice').value.trim() }, { merge: true });
-    toast('✅ Notice saved', 'success');
   } catch(e) { toast(e.message, 'error'); }
 }
 
@@ -832,7 +894,7 @@ async function addGiftCode() {
     await db.collection('app_config').doc('main').set({ giftCodes: { [code]: amt } }, { merge: true });
     document.getElementById('newCode').value = '';
     document.getElementById('newCodeAmt').value = '';
-    toast('✅ Added', 'success'); loadConfig();
+    toast('✅ Added'); loadConfig();
   } catch(e) { toast(e.message, 'error'); }
 }
 
@@ -840,16 +902,6 @@ async function deleteGiftCode(code) {
   if(!confirm('Delete?')) return;
   await db.collection('app_config').doc('main').update({ ['giftCodes.' + code]: firebase.firestore.FieldValue.delete() });
   toast('Deleted'); loadConfig();
-}
-
-function renderDailyTasks(tasks) {
-  const el = document.getElementById('dailyTasksList');
-  if(!tasks.length) { el.innerHTML = '<p style="color:var(--muted);font-size:12px;text-align:center;padding:16px">No tasks</p>'; return; }
-  el.innerHTML = tasks.map(t => `
-    <div class="row">
-      <div class="row-info"><div class="row-title">${t.title}</div><div class="row-sub">৳${t.reward} · ${t.time||t.wait}s · ${t.link||'No link'}</div></div>
-    </div>
-  `).join('');
 }
 
 auth.onAuthStateChanged(async user => {
